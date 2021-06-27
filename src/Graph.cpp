@@ -12,6 +12,7 @@
 #include <float.h>
 #include <iomanip>
 #include <vector>
+#include <string>
 
 using namespace std;
 
@@ -245,12 +246,10 @@ float Graph::floydMarshall(int idSource, int idTarget)
 
 void caminhoMinimo(int anterior[], int vertice)
 {
-    // cout << "caminhoMinimo do " << vertice << endl;
-    // cout << "anterior[vertice] " << anterior[vertice] << endl;
-    // caso base (esse vertice eh o primeiro, logo nao existe um vertice anterior a ele)
-    if (anterior[vertice] <= 0)
+    if (anterior[vertice] == -1)
     {
-        return; //saindo da funcao
+        std::cout << vertice << " "; //imprimindo o caminho minimo
+        return;                      //saindo da funcao
     }
 
     //chamando a funcao passando com o parametros o vetor de anteriores
@@ -277,7 +276,7 @@ float Graph::dijkstra(int idSource, int idTarget)
     distancies[idSource] = 0;
 
     //caso base (não existe vertice anterior ao primeiro)
-    previousEdges[0] = -1;
+    previousEdges[idSource] = -1;
 
     priorities.push_back(make_pair(distancies[idSource], idSource));
     while (!priorities.empty())
@@ -285,23 +284,19 @@ float Graph::dijkstra(int idSource, int idTarget)
         pair<int, int> topPair = priorities.front(); // pegando o elemento do vector de priorities
         int topEdge = topPair.second;                // recuperando o vertice do topo
         //removendo o item do vector (pois seus dados já foram "guardados" para serem utilizados abaixo)
-        cout << "TOPEDGE" << topEdge << endl;
         priorities.erase(priorities.begin());
         if (!visited[topEdge]) // verificando se o vertice já foi visitado
         {
             visited[topEdge] = true;
             list<pair<int, int> >::iterator it;
             //percorrendo os vertices adjacentes ao vertice visitado
-            cout << "get node" << this->getNode(topEdge)->getFirstEdge() << endl;
             for (Edge *it = this->getNode(topEdge)->getFirstEdge(); it != nullptr; it = it->getNextEdge())
             {
-                cout << "hello" << it << endl;
                 int vertice = it->getTargetId();    //obtem o vertice
                 int custo_aresta = it->getWeight(); //obtem o custo da aresta
                 // verificando a menor distancia
                 if (distancies[vertice] > (distancies[topEdge] + custo_aresta))
                 {
-                    cout << "entrei no if " << vertice << endl;
                     distancies[vertice] = distancies[topEdge] + custo_aresta; // atualizando a distancia
                     previousEdges[vertice] = topEdge;                         //armazena o vertice anterior ao vertice atual
 
@@ -312,12 +307,12 @@ float Graph::dijkstra(int idSource, int idTarget)
             }
         }
     }
-    cout << " caso base " << previousEdges[0] << endl;
-    cout << "caminho minimo: ";
-    // caminhoMinimo(previousEdges, idTarget);
     cout << endl
-         << "distancia minima: " << distancies[idTarget];
-    delete[] visited, distancies, previousEdges;
+         << "caminho minimo: ";
+    caminhoMinimo(previousEdges, idTarget);
+
+    delete[] visited,
+        distancies, previousEdges;
 }
 
 //function that prints a topological sorting
