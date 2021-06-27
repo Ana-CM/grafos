@@ -121,8 +121,16 @@ void Graph::insertEdge(int id, int target_id, float weight)
     {
         this->insertNode(id);
     }
-    Node *node = getNode(id);
-    node->insertEdge(target_id, weight);
+    if (!searchNode(target_id))
+    {
+        this->insertNode(target_id);
+    }
+    Node *originNode = getNode(id), *targetNode = getNode(target_id);
+    if (!directed)
+    {
+        targetNode->insertEdge(id, weight);
+    }
+    originNode->insertEdge(target_id, weight);
 }
 
 void Graph::removeNode(int id)
@@ -237,10 +245,10 @@ float Graph::floydMarshall(int idSource, int idTarget)
 
 void caminhoMinimo(int anterior[], int vertice)
 {
-    cout << "caminhoMinimo do " << vertice << endl;
-    cout << "anterior[vertice] " << anterior[vertice] << endl;
+    // cout << "caminhoMinimo do " << vertice << endl;
+    // cout << "anterior[vertice] " << anterior[vertice] << endl;
     // caso base (esse vertice eh o primeiro, logo nao existe um vertice anterior a ele)
-    if (anterior[vertice] == -1)
+    if (anterior[vertice] <= 0)
     {
         return; //saindo da funcao
     }
@@ -304,8 +312,11 @@ float Graph::dijkstra(int idSource, int idTarget)
             }
         }
     }
-    cout << " caso base " << previousEdges[0];
+    cout << " caso base " << previousEdges[0] << endl;
+    cout << "caminho minimo: ";
     // caminhoMinimo(previousEdges, idTarget);
+    cout << endl
+         << "distancia minima: " << distancies[idTarget];
     delete[] visited, distancies, previousEdges;
 }
 

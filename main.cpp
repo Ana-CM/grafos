@@ -142,7 +142,7 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
         //Caminho mínimo entre dois vértices usando Dijkstra;
     case 2:
     {
-        int source = 5, target = 2;
+        int source = 5, target = 3;
         // cout << "Source id: ";
         // cin >> source;
         // cout << "Target id: ";
