@@ -244,22 +244,22 @@ float Graph::floydMarshall(int idSource, int idTarget)
 {
 }
 
-void caminhoMinimo(int anterior[], int vertice)
+void caminhoMinimo(int anterior[], int vertice, string *retorno)
 {
     if (anterior[vertice] == -1)
     {
-        std::cout << vertice << " "; //imprimindo o caminho minimo
-        return;                      //saindo da funcao
+        *retorno = to_string(vertice) + " "; //imprimindo o caminho minimo
+        return;                              //saindo da funcao
     }
 
     //chamando a funcao passando com o parametros o vetor de anteriores
     // e o vertice anterior ao atual q a funcao recebeu
-    caminhoMinimo(anterior, anterior[vertice]);
+    caminhoMinimo(anterior, anterior[vertice], retorno);
 
-    std::cout << vertice << " "; //imprimindo o caminho minimo
+    *retorno += to_string(vertice) + " "; //imprimindo o caminho minimo
 }
 
-float Graph::dijkstra(int idSource, int idTarget)
+string Graph::dijkstra(int idSource, int idTarget)
 {
     int *distancies = new int[this->order];
     int *visited = new int[this->order];
@@ -307,12 +307,12 @@ float Graph::dijkstra(int idSource, int idTarget)
             }
         }
     }
-    cout << endl
-         << "caminho minimo: ";
-    caminhoMinimo(previousEdges, idTarget);
+    string retorno;
+    caminhoMinimo(previousEdges, idTarget, &retorno);
 
     delete[] visited,
         distancies, previousEdges;
+    return retorno;
 }
 
 //function that prints a topological sorting

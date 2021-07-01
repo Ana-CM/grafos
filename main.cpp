@@ -44,8 +44,6 @@ Graph *leitura(ifstream &input_file, int directed, int weightedEdge, int weighte
 
         while (input_file >> idNodeSource >> idNodeTarget >> edgeWeight)
         {
-            cout << endl
-                 << "edgeWeight: " << edgeWeight << endl;
             graph->insertEdge(idNodeSource, idNodeTarget, edgeWeight);
         }
     }
@@ -142,12 +140,14 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
         //Caminho mínimo entre dois vértices usando Dijkstra;
     case 2:
     {
-        int source = 5, target = 3;
-        // cout << "Source id: ";
-        // cin >> source;
-        // cout << "Target id: ";
-        // cin >> target;
-        graph->dijkstra(source, target);
+        int source, target;
+        cout << "Source id: ";
+        cin >> source;
+        cout << "Target id: ";
+        cin >> target;
+
+        string outputData = graph->dijkstra(source, target);
+        output_file << "Caminho Mínimo entre dois vértices - Dijkstra: " << outputData;
         break;
     }
 
