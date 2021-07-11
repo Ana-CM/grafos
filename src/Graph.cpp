@@ -336,13 +336,13 @@ Graph *getVertexInduced(int *listIdNodes)
     return nullptr;
 }
 
-int find(int u, int *parent)
+//Retorna o pai do vertice
+int Graph::find(int aux_node, int *parent)
 {
-    /* Make the parent of the nodes in the path
-        from u--> parent[u] point to parent[u] */
-    if (u != parent[u])
-        parent[u] = find(parent[u], parent);
-    return parent[u];
+    if ( aux_node != parent[aux_node] )
+        parent[aux_node] = find(parent[aux_node], parent);
+
+    return parent[aux_node];
 }
   
 
@@ -350,17 +350,18 @@ string Graph::agmKruskal()
 {
     int weight, order, *parent, *rank;  
     string response;
- 
+    
+    //iniciando as variaveis
     response = "Árvore Geradora Mínima de Kruskal: ";
     weight   = 0;
     order    = this->getOrder();
     parent   = new int[ order+1 ];
     rank     = new int[ order+1 ];
 
-    for( int i = 0; i <= order; i++ )
+    for ( int i = 0; i <= order; i++ )
     {
-        rank[i] = 0;
-        parent[i] = i;
+        rank[i]   = 0;   // Inicialmente, todos os vértices estão em conjuntos diferentes e têm classificação 0.
+        parent[i] = i;  // Todo vertice é pai de si mesmo
     }
 	
     sort( this->edges.begin(), this->edges.end() ); //ordenando as arestas em ordem crescente de custo
@@ -368,28 +369,26 @@ string Graph::agmKruskal()
     vector< pair<int, iPair> >::iterator it;
 	for ( it = this->edges.begin(); it != this->edges.end(); it++ )
 	{   
-        int x, y;
-		int u = it->second.first;
-		int v = it->second.second;
+		int node_1 = it->second.first;
+		int node_2 = it->second.second;
 
-		int set_u = find(u, parent);
-		int set_v = find(v, parent);
+		int set_node_1 = find( node_1, parent );
+		int set_node_2 = find( node_2, parent );
 
-		if (set_u != set_v)
+        //vericando se existe um ciclo entre as duas arestas
+		if ( set_node_1 != set_node_2 )
 		{
-			response += to_string(u) + " - " + to_string(v) + " // ";
+			response += to_string( node_1 ) + " - " + to_string( node_2 ) + " // ";
 
 			weight += it->first;
 			
-            x = find(u, parent);
-            y = find(v, parent);
-            if (rank[x] > rank[y])
-			     parent[y] = x;
+            if (rank[ set_node_1 ] > rank[ set_node_2 ])
+			     parent[ set_node_2 ] = set_node_1 ;
 		    else  
-			     parent[x] = y;
+			     parent[ set_node_1 ] = set_node_2;
 
-		    if (rank[x] == rank[y])
-			    rank[y]++;
+		    if (rank[ set_node_1 ] == rank[ set_node_2 ])
+			    rank[ set_node_2 ]++;
 		}
 	}
 

@@ -60,6 +60,7 @@ public:
     float greed();
     float greedRandom();
     float greedRactiveRandom();
+    int find(int aux_node, int *parent);
 
 private:
     //Auxiliar methods
