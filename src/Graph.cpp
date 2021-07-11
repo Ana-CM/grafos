@@ -13,6 +13,7 @@
 #include <iomanip>
 #include <vector>
 #include <string>
+#include<algorithm>
 
 using namespace std;
 
@@ -132,6 +133,7 @@ void Graph::insertEdge(int id, int target_id, float weight)
         targetNode->insertEdge(id, weight);
     }
     originNode->insertEdge(target_id, weight);
+    this->edges.push_back({weight, {id, target_id}});
 }
 
 void Graph::removeNode(int id)
@@ -242,6 +244,7 @@ void Graph::breadthFirstSearch(ofstream &output_file)
 
 float Graph::floydMarshall(int idSource, int idTarget)
 {
+    return 0;
 }
 
 void caminhoMinimo(int anterior[], int vertice, string *retorno)
@@ -315,6 +318,11 @@ string Graph::dijkstra(int idSource, int idTarget)
     return retorno;
 }
 
+string Graph::DirectTransitiveClosing(int no)
+{
+    return "nada";
+}
+
 //function that prints a topological sorting
 void topologicalSorting()
 {
@@ -325,11 +333,72 @@ void breadthFirstSearch(ofstream &output_file)
 }
 Graph *getVertexInduced(int *listIdNodes)
 {
+    return nullptr;
 }
 
-Graph *agmKuskal()
+int find(int u, int *parent)
 {
+    /* Make the parent of the nodes in the path
+        from u--> parent[u] point to parent[u] */
+    if (u != parent[u])
+        parent[u] = find(parent[u], parent);
+    return parent[u];
 }
+  
+
+void Graph::agmKuskal(ofstream &output_file)
+{
+    int agm_wt = 0;  //peso
+
+    sort(this->edges.begin(), this->edges.end()); //ordenando as arestas em ordem crescente de custo
+
+    int *parent, *rank;
+	int n, x, y;
+
+    n = this->getOrder();
+
+    parent = new int[n+1];
+    rank = new int[n+1];
+
+    for (int i = 0; i <= n; i++)
+    {
+        rank[i] = 0;
+        parent[i] = i;
+    }
+	
+    vector< pair<int, iPair> >::iterator it;
+	for (it = this->edges.begin(); it != this->edges.end(); it++)
+	{
+		int u = it->second.first;
+		int v = it->second.second;
+
+		int set_u = find(u, parent);
+		int set_v = find(v, parent);
+
+		if (set_u != set_v)
+		{
+			cout << u << " - " << v << endl;
+
+			agm_wt += it->first;
+
+            cout<< endl;
+            cout << "agm: " << agm_wt;
+            cout<< endl;
+			
+            x = find(u, parent);
+            y = find(v, parent);
+            if (rank[x] > rank[y])
+			     parent[y] = x;
+		    else  
+			     parent[x] = y;
+
+		    if (rank[x] == rank[y])
+			    rank[y]++;
+		}
+	}
+}
+
 Graph *agmPrim()
 {
+    return nullptr;
 }

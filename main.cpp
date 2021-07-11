@@ -109,7 +109,7 @@ int menu()
 
     cout << "MENU" << endl;
     cout << "----" << endl;
-    cout << "[1] Subgrafo induzido por conjunto de vértices" << endl;
+    cout << "[1] Fecho transitivo direto de um vértice" << endl;
     cout << "[2] Caminho Mínimo entre dois vértices - Dijkstra" << endl;
     cout << "[3] Caminho Mínimo entre dois vértices - Floyd" << endl;
     cout << "[4] Árvore Geradora Mínima de Prim" << endl;
@@ -131,10 +131,16 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
     switch (selecao)
     {
 
-    //Subgrafo induzido por um conjunto de vértices X;
+    //Fecho transitivo direto de um vértice X;
     case 1:
     {
+        int no;
+        cout << "Node id: ";
+        cin >> no;
 
+        string outputData = graph->DirectTransitiveClosing(no);
+        output_file << "Fecho transitivo direto do vértice " << no << ": " << outputData;
+        
         break;
     }
         //Caminho mínimo entre dois vértices usando Dijkstra;
@@ -158,17 +164,18 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
         break;
     }
 
-        //AGM - Kruscal;
+        //AGM - Prim;
     case 4:
     {
-
+        
         break;
     }
 
-        //AGM Prim;
+        //AGM - Kruskal;
     case 5:
     {
-
+        output_file << "Árvore Geradora Mínima de Kruskal:" << endl;
+        graph->agmKuskal(output_file);
         break;
     }
 

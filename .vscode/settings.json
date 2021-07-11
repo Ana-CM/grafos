@@ -18,6 +18,8 @@
         "unordered_map": "cpp",
         "ostream": "cpp",
         "new": "cpp",
-        "__nullptr": "cpp"
+        "__nullptr": "cpp",
+        "algorithm": "cpp",
+        "iostream": "cpp"
     }
 }

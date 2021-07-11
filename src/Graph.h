@@ -8,6 +8,7 @@
 #include <fstream>
 #include <stack>
 #include <list>
+#include <vector>
 
 using namespace std;
 
@@ -31,6 +32,8 @@ public:
     ~Graph();
     //Getters
     int getOrder();
+    typedef  pair<int, int> iPair;
+    vector< pair<int, iPair> > edges;
     int getNumberEdges();
     bool getDirected();
     bool getWeightedEdge();
@@ -48,11 +51,11 @@ public:
     void topologicalSorting();
     void breadthFirstSearch(ofstream &output_file);
     Graph *getVertexInduced(int *listIdNodes);
-    Graph *agmKuskal();
+    void agmKuskal(ofstream &output_file);
     Graph *agmPrim();
     float floydMarshall(int idSource, int idTarget);
     string dijkstra(int idSource, int idTarget);
-
+    string DirectTransitiveClosing(int no);
     //methods phase1
     float greed();
     float greedRandom();
