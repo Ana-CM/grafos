@@ -174,8 +174,8 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
         //AGM - Kruskal;
     case 5:
     {
-        output_file << "Árvore Geradora Mínima de Kruskal:" << endl;
-        graph->agmKuskal(output_file);
+        string outputData = graph->agmKruskal();
+        output_file << outputData;
         break;
     }
 

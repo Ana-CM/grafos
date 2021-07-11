@@ -346,29 +346,29 @@ int find(int u, int *parent)
 }
   
 
-void Graph::agmKuskal(ofstream &output_file)
+string Graph::agmKruskal()
 {
-    int agm_wt = 0;  //peso
+    int weight, order, *parent, *rank;  
+    string response;
+ 
+    response = "Árvore Geradora Mínima de Kruskal: ";
+    weight   = 0;
+    order    = this->getOrder();
+    parent   = new int[ order+1 ];
+    rank     = new int[ order+1 ];
 
-    sort(this->edges.begin(), this->edges.end()); //ordenando as arestas em ordem crescente de custo
-
-    int *parent, *rank;
-	int n, x, y;
-
-    n = this->getOrder();
-
-    parent = new int[n+1];
-    rank = new int[n+1];
-
-    for (int i = 0; i <= n; i++)
+    for( int i = 0; i <= order; i++ )
     {
         rank[i] = 0;
         parent[i] = i;
     }
 	
+    sort( this->edges.begin(), this->edges.end() ); //ordenando as arestas em ordem crescente de custo
+
     vector< pair<int, iPair> >::iterator it;
-	for (it = this->edges.begin(); it != this->edges.end(); it++)
-	{
+	for ( it = this->edges.begin(); it != this->edges.end(); it++ )
+	{   
+        int x, y;
 		int u = it->second.first;
 		int v = it->second.second;
 
@@ -377,13 +377,9 @@ void Graph::agmKuskal(ofstream &output_file)
 
 		if (set_u != set_v)
 		{
-			cout << u << " - " << v << endl;
+			response += to_string(u) + " - " + to_string(v) + " // ";
 
-			agm_wt += it->first;
-
-            cout<< endl;
-            cout << "agm: " << agm_wt;
-            cout<< endl;
+			weight += it->first;
 			
             x = find(u, parent);
             y = find(v, parent);
@@ -396,6 +392,10 @@ void Graph::agmKuskal(ofstream &output_file)
 			    rank[y]++;
 		}
 	}
+
+    response += "Peso: " + to_string(weight);
+
+    return response;
 }
 
 Graph *agmPrim()

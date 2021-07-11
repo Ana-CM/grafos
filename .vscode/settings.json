@@ -20,6 +20,7 @@
         "new": "cpp",
         "__nullptr": "cpp",
         "algorithm": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "xstring": "cpp"
     }
 }
