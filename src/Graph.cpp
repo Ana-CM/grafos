@@ -102,13 +102,11 @@ void Graph::insertNode(int id)
     Node *No = new Node(id);
     if (this->first_node == nullptr)
     {
-
         this->first_node = No;
         this->last_node = No;
     }
     else
     {
-
         if (this->searchNode(id) == false)
         {
             this->last_node->setNextNode(No);
@@ -158,7 +156,6 @@ void Graph::removeNode(int id)
             }
             else
             {
-
                 Node *atual = this->first_node;
                 Node *anterior = nullptr;
 
@@ -247,7 +244,7 @@ float Graph::floydMarshall(int idSource, int idTarget)
     return 0;
 }
 
-void caminhoMinimo(int anterior[], int vertice, string *retorno)
+void Graph::caminhoMinimo(int anterior[], int vertice, string *retorno)
 {
     if (anterior[vertice] == -1)
     {
@@ -318,9 +315,43 @@ string Graph::dijkstra(int idSource, int idTarget)
     return retorno;
 }
 
-string Graph::DirectTransitiveClosing(int no)
+string Graph::DirectTransitiveClosing( int no )
+{   
+    string response = "";
+    list<Node*> listNodes;
+
+    AuxDirectTransitiveClosing( this->getNode( no ), listNodes, no );
+    
+    for( list<Node*>::iterator it = listNodes.begin(); it != listNodes.end(); it++ )
+    {   
+       Node *aux = *it;
+       response += to_string( aux->getId() ) + " ";
+    }
+
+    return response;
+}
+
+void Graph::AuxDirectTransitiveClosing( Node* no, list<Node*> &listNodes, int node_user )
 {
-    return "nada";
+    // Parada, pois o vertice já está na solução
+    if( find( listNodes.begin(), listNodes.end(), no ) != listNodes.end() )
+        return;
+
+    // vértice atual é adicionado na solução
+    if( no->getId() != node_user )
+    {
+        listNodes.push_back( no );
+    }
+    
+    // Percorrendo as arestas e buscando mais vértices que podem ser atingidos
+    vector< pair<int, iPair> >::iterator it;
+	for ( it = this->edges.begin(); it != this->edges.end(); it++ )
+    {   
+        if( it->second.first == node_user || (find( listNodes.begin(), listNodes.end(), this->getNode( it->second.first ) ) != listNodes.end())){
+
+            AuxDirectTransitiveClosing( this->getNode( it->second.second ), listNodes, node_user );
+        }
+    }
 }
 
 //function that prints a topological sorting
@@ -337,15 +368,14 @@ Graph *getVertexInduced(int *listIdNodes)
 }
 
 //Retorna o pai do vertice
-int Graph::find(int aux_node, int *parent)
+int Graph::findParent(int aux_node, int *parent)
 {
     if ( aux_node != parent[aux_node] )
-        parent[aux_node] = find(parent[aux_node], parent);
+        parent[aux_node] = findParent(parent[aux_node], parent);
 
     return parent[aux_node];
 }
   
-
 string Graph::agmKruskal()
 {
     int weight, order, *parent, *rank;  
@@ -372,8 +402,8 @@ string Graph::agmKruskal()
 		int node_1 = it->second.first;
 		int node_2 = it->second.second;
 
-		int set_node_1 = find( node_1, parent );
-		int set_node_2 = find( node_2, parent );
+		int set_node_1 = findParent( node_1, parent );
+		int set_node_2 = findParent( node_2, parent );
 
         //vericando se existe um ciclo entre as duas arestas
 		if ( set_node_1 != set_node_2 )

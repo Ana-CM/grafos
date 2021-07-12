@@ -131,15 +131,29 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
     switch (selecao)
     {
 
-    //Fecho transitivo direto de um vértice X;
+        //Fecho transitivo direto de um vértice X;
     case 1:
-    {
-        int no;
-        cout << "Node id: ";
-        cin >> no;
+    {   
+        if ( graph->getDirected() )
+        {
+            int no;
+            cout << "Node id: ";
+            cin >> no;
 
-        string outputData = graph->DirectTransitiveClosing(no);
-        output_file << "Fecho transitivo direto do vértice " << no << ": " << outputData;
+            if( graph->searchNode( no ) )
+            {
+                string outputData = graph->DirectTransitiveClosing(no);
+                output_file << "Fecho transitivo direto do vértice " << no << ": " << outputData;
+
+            }else
+            {
+                cout << "Vertice escolhido não existe!" << endl;
+            }
+            
+        }else
+        {
+            cout << "Esse algoritmo não pode ser usado nesse grafo" << endl;
+        }
         
         break;
     }
@@ -152,8 +166,16 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
         cout << "Target id: ";
         cin >> target;
 
-        string outputData = graph->dijkstra(source, target);
-        output_file << "Caminho Mínimo entre dois vértices - Dijkstra: " << outputData;
+        if( graph->searchNode( target ) && graph->searchNode( source ) )
+        {
+            string outputData = graph->dijkstra(source, target);
+            output_file << "Caminho Mínimo entre dois vértices - Dijkstra: " << outputData;
+
+        }else
+        {
+            cout << "Um dos vertices escolhidos não existe!" << endl;
+        }
+
         break;
     }
 

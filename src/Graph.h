@@ -60,7 +60,9 @@ public:
     float greed();
     float greedRandom();
     float greedRactiveRandom();
-    int find(int aux_node, int *parent);
+    int findParent(int aux_node, int *parent);
+    void caminhoMinimo(int anterior[], int vertice, string *retorno);
+    void AuxDirectTransitiveClosing( Node* no, list<Node*> &listNodes, int node_user );
 
 private:
     //Auxiliar methods
