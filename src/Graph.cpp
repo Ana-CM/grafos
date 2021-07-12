@@ -233,12 +233,6 @@ Node *Graph::getNode(int id)
     return nullptr;
 }
 
-//Function that prints a set of edges belongs breadth tree
-
-void Graph::breadthFirstSearch(ofstream &output_file)
-{
-}
-
 float Graph::floydMarshall(int idSource, int idTarget)
 {
     return 0;
@@ -354,19 +348,6 @@ void Graph::AuxDirectTransitiveClosing( Node* no, list<Node*> &listNodes, int no
     }
 }
 
-//function that prints a topological sorting
-void topologicalSorting()
-{
-}
-
-void breadthFirstSearch(ofstream &output_file)
-{
-}
-Graph *getVertexInduced(int *listIdNodes)
-{
-    return nullptr;
-}
-
 //Retorna o pai do vertice
 int Graph::findParent(int aux_node, int *parent)
 {
@@ -425,6 +406,11 @@ string Graph::agmKruskal()
     response += "Peso: " + to_string(weight);
 
     return response;
+}
+
+void Graph::topologicalSorting()
+{
+    
 }
 
 Graph *agmPrim()

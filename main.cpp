@@ -114,11 +114,9 @@ int menu()
     cout << "[3] Caminho Mínimo entre dois vértices - Floyd" << endl;
     cout << "[4] Árvore Geradora Mínima de Prim" << endl;
     cout << "[5] Árvore Geradora Mínima de Kruskal" << endl;
-    cout << "[6] Imprimir caminhamento em largura" << endl;
+    cout << "[6] Imprimir caminhamento em Profundidade" << endl;
     cout << "[7] Imprimir ordenacao topológica" << endl;
-    cout << "[8] Algoritmo Guloso" << endl;
-    cout << "[9] Algoritmo Guloso Randomizado " << endl;
-    cout << "[10] Algoritmo Guloso Randomizado Reativo" << endl;
+    cout << "[8] Fecho transitivo indireto de um vértice" << endl;
     cout << "[0] Sair" << endl;
 
     cin >> selecao;
@@ -201,7 +199,7 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
         break;
     }
 
-        //Busca em largura;
+        //Busca em Profundidade;
     case 6:
     {
 
@@ -211,6 +209,11 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
     case 7:
     {
 
+        break;
+    }
+        //Fecho transitivo direto de um vértice X;
+    case 8:
+    {
         break;
     }
     default:

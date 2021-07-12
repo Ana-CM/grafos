@@ -49,8 +49,6 @@ public:
 
     //methods phase1
     void topologicalSorting();
-    void breadthFirstSearch(ofstream &output_file);
-    Graph *getVertexInduced(int *listIdNodes);
     string agmKruskal();
     Graph *agmPrim();
     float floydMarshall(int idSource, int idTarget);
