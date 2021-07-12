@@ -213,7 +213,27 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
     }
         //Fecho transitivo direto de um vértice X;
     case 8:
-    {
+    {   
+        if ( graph->getDirected() )
+        {
+            int no;
+            cout << "Node id: ";
+            cin >> no;
+
+            if( graph->searchNode( no ) )
+            {
+                string outputData = graph->IndirectTransitiveClosing(no);
+                output_file << "Fecho transitivo indireto do vértice " << no << ": " << outputData;
+
+            }else
+            {
+                cout << "Vertice escolhido não existe!" << endl;
+            }
+            
+        }else
+        {
+            cout << "Esse algoritmo não pode ser usado nesse grafo" << endl;
+        }
         break;
     }
     default:

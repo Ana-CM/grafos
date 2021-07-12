@@ -1,2 +1,9 @@
-Fecho transitivo direto do vértice 2: 5 4 
-Fecho transitivo direto do vértice 7: 0 1 2 5 4 
+Fecho transitivo indireto do vértice 0: 7 
+Fecho transitivo indireto do vértice 1: 0 6 7 
+Fecho transitivo indireto do vértice 2: 0 1 3 6 7 
+Fecho transitivo indireto do vértice 3: 
+Fecho transitivo indireto do vértice 4: 5 2 0 1 3 6 7 
+Fecho transitivo indireto do vértice 5: 2 0 1 3 6 7 
+Fecho transitivo indireto do vértice 6: 
+Fecho transitivo indireto do vértice 7: 
+

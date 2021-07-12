@@ -54,6 +54,7 @@ public:
     float floydMarshall(int idSource, int idTarget);
     string dijkstra(int idSource, int idTarget);
     string DirectTransitiveClosing(int no);
+    string IndirectTransitiveClosing(int no);
     //methods phase1
     float greed();
     float greedRandom();
@@ -61,6 +62,7 @@ public:
     int findParent(int aux_node, int *parent);
     void caminhoMinimo(int anterior[], int vertice, string *retorno);
     void AuxDirectTransitiveClosing( Node* no, list<Node*> &listNodes, int node_user );
+    void AuxIndirectTransitiveClosing( Node* no, list<Node*> &listNodes, int node_user );
 
 private:
     //Auxiliar methods

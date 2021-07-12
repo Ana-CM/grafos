@@ -348,6 +348,45 @@ void Graph::AuxDirectTransitiveClosing( Node* no, list<Node*> &listNodes, int no
     }
 }
 
+string Graph::IndirectTransitiveClosing( int no )
+{   
+    string response = "";
+    list<Node*> listNodes;
+
+    AuxIndirectTransitiveClosing( this->getNode( no ), listNodes, no );
+    
+    for( list<Node*>::iterator it = listNodes.begin(); it != listNodes.end(); it++ )
+    {   
+       Node *aux = *it;
+       response += to_string( aux->getId() ) + " ";
+    }
+
+    return response;
+}
+
+void Graph::AuxIndirectTransitiveClosing( Node* no, list<Node*> &listNodes, int node_user )
+{
+    // Parada, pois o vertice já está na solução
+    if( find( listNodes.begin(), listNodes.end(), no ) != listNodes.end() )
+        return;
+
+    // vértice atual é adicionado na solução
+    if( no->getId() != node_user )
+    {
+        listNodes.push_back( no );
+    }
+    
+    // Percorrendo as arestas e buscando mais vértices que podem ser atingidos
+    vector< pair<int, iPair> >::iterator it;
+	for ( it = this->edges.begin(); it != this->edges.end(); it++ )
+    {   
+        if( it->second.second == node_user || (find( listNodes.begin(), listNodes.end(), this->getNode( it->second.second ) ) != listNodes.end())){
+
+            AuxIndirectTransitiveClosing( this->getNode( it->second.first ), listNodes, node_user );
+        }
+    }
+}
+
 //Retorna o pai do vertice
 int Graph::findParent(int aux_node, int *parent)
 {
