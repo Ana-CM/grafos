@@ -131,7 +131,7 @@ void Graph::insertEdge(int id, int target_id, float weight)
         targetNode->insertEdge(id, weight);
     }
     originNode->insertEdge(target_id, weight);
-    this->edges.push_back({weight, {id, target_id}});
+    this->edges.push_back(make_pair(weight, make_pair(id, target_id)));
 }
 
 void Graph::removeNode(int id)

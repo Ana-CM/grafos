@@ -193,10 +193,17 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
 
         //AGM - Kruskal;
     case 5:
-    {
-        string outputData = graph->agmKruskal();
-        output_file << outputData;
-        break;
+    {   
+        if ( ! graph->getDirected() )
+        {
+            string outputData = graph->agmKruskal();
+            output_file << outputData;
+            break;
+            
+        }else
+        {
+            cout << "Esse algoritmo não pode ser usado nesse grafo" << endl;
+        }
     }
 
         //Busca em Profundidade;
