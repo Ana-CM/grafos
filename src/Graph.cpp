@@ -13,7 +13,7 @@
 #include <iomanip>
 #include <vector>
 #include <string>
-#include<algorithm>
+#include <algorithm>
 
 using namespace std;
 
@@ -233,9 +233,46 @@ Node *Graph::getNode(int id)
     return nullptr;
 }
 
-float Graph::floydMarshall(int idSource, int idTarget)
+float Graph::floydWarshall(int idSource, int idTarget)
 {
-    return 0;
+    int graphOrder = this->getOrder();
+
+    float solution[graphOrder][graphOrder];
+    for (int i = 0; i < graphOrder; i++)
+    {
+        for (int j = 0; j < graphOrder; j++)
+        {
+            if (i == j)
+            {
+                solution[i][j] = 0;
+            }
+            else
+            {
+                solution[i][j] = FLT_MAX;
+                Node *iNode = this->getNode(i);
+                Edge *edgeBetweenIJ = iNode->hasEdgeBetween(j);
+                if (edgeBetweenIJ)
+                {
+                    solution[i][j] = edgeBetweenIJ->getWeight();
+                }
+            }
+        }
+    }
+    for (int k = 0; k < graphOrder; k++)
+    {
+        for (int i = 0; i < graphOrder; i++)
+        {
+            for (int j = 0; j < graphOrder; j++)
+            {
+                if (solution[i][j] > solution[i][k] + solution[k][j])
+                {
+                    solution[i][j] = solution[i][k] + solution[k][j];
+                }
+            }
+        }
+    }
+
+    return solution[idSource][idTarget];
 }
 
 void Graph::caminhoMinimo(int anterior[], int vertice, string *retorno)
@@ -309,41 +346,42 @@ string Graph::dijkstra(int idSource, int idTarget)
     return retorno;
 }
 
-string Graph::DirectTransitiveClosing( int no )
-{   
+string Graph::DirectTransitiveClosing(int no)
+{
     string response = "";
-    list<Node*> listNodes;
+    list<Node *> listNodes;
 
-    AuxDirectTransitiveClosing( this->getNode( no ), listNodes, no );
-    
-    for( list<Node*>::iterator it = listNodes.begin(); it != listNodes.end(); it++ )
-    {   
-       Node *aux = *it;
-       response += to_string( aux->getId() ) + " ";
+    AuxDirectTransitiveClosing(this->getNode(no), listNodes, no);
+
+    for (list<Node *>::iterator it = listNodes.begin(); it != listNodes.end(); it++)
+    {
+        Node *aux = *it;
+        response += to_string(aux->getId()) + " ";
     }
 
     return response;
 }
 
-void Graph::AuxDirectTransitiveClosing( Node* no, list<Node*> &listNodes, int node_user )
+void Graph::AuxDirectTransitiveClosing(Node *no, list<Node *> &listNodes, int node_user)
 {
     // Parada, pois o vertice já está na solução
-    if( find( listNodes.begin(), listNodes.end(), no ) != listNodes.end() )
+    if (find(listNodes.begin(), listNodes.end(), no) != listNodes.end())
         return;
 
     // vértice atual é adicionado na solução
-    if( no->getId() != node_user )
+    if (no->getId() != node_user)
     {
-        listNodes.push_back( no );
+        listNodes.push_back(no);
     }
-    
-    // Percorrendo as arestas e buscando mais vértices que podem ser atingidos
-    vector< pair<int, iPair> >::iterator it;
-	for ( it = this->edges.begin(); it != this->edges.end(); it++ )
-    {   
-        if( it->second.first == node_user || (find( listNodes.begin(), listNodes.end(), this->getNode( it->second.first ) ) != listNodes.end())){
 
-            AuxDirectTransitiveClosing( this->getNode( it->second.second ), listNodes, node_user );
+    // Percorrendo as arestas e buscando mais vértices que podem ser atingidos
+    vector<pair<int, iPair> >::iterator it;
+    for (it = this->edges.begin(); it != this->edges.end(); it++)
+    {
+        if (it->second.first == node_user || (find(listNodes.begin(), listNodes.end(), this->getNode(it->second.first)) != listNodes.end()))
+        {
+
+            AuxDirectTransitiveClosing(this->getNode(it->second.second), listNodes, node_user);
         }
     }
 }
@@ -351,57 +389,55 @@ void Graph::AuxDirectTransitiveClosing( Node* no, list<Node*> &listNodes, int no
 //Retorna o pai do vertice
 int Graph::findParent(int aux_node, int *parent)
 {
-    if ( aux_node != parent[aux_node] )
+    if (aux_node != parent[aux_node])
         parent[aux_node] = findParent(parent[aux_node], parent);
 
     return parent[aux_node];
 }
-  
+
 string Graph::agmKruskal()
 {
-    int weight, order, *parent, *rank;  
+    int weight, order, *parent, *rank;
     string response;
-    
+
     //iniciando as variaveis
     response = "Árvore Geradora Mínima de Kruskal: ";
-    weight   = 0;
-    order    = this->getOrder();
-    parent   = new int[ order+1 ];
-    rank     = new int[ order+1 ];
+    weight = 0;
+    order = this->getOrder();
+    parent = new int[order + 1];
+    rank = new int[order + 1];
 
-    for ( int i = 0; i <= order; i++ )
+    for (int i = 0; i <= order; i++)
     {
-        rank[i]   = 0;   // Inicialmente, todos os vértices estão em conjuntos diferentes e têm classificação 0.
-        parent[i] = i;  // Todo vertice é pai de si mesmo
+        rank[i] = 0;   // Inicialmente, todos os vértices estão em conjuntos diferentes e têm classificação 0.
+        parent[i] = i; // Todo vertice é pai de si mesmo
     }
-	
-    sort( this->edges.begin(), this->edges.end() ); //ordenando as arestas em ordem crescente de custo
 
-    vector< pair<int, iPair> >::iterator it;
-	for ( it = this->edges.begin(); it != this->edges.end(); it++ )
-	{   
-		int node_1 = it->second.first;
-		int node_2 = it->second.second;
+    vector<pair<int, iPair> >::iterator it;
+    for (it = this->edges.begin(); it != this->edges.end(); it++)
+    {
+        int node_1 = it->second.first;
+        int node_2 = it->second.second;
 
-		int set_node_1 = findParent( node_1, parent );
-		int set_node_2 = findParent( node_2, parent );
+        int set_node_1 = findParent(node_1, parent);
+        int set_node_2 = findParent(node_2, parent);
 
         //vericando se existe um ciclo entre as duas arestas
-		if ( set_node_1 != set_node_2 )
-		{
-			response += to_string( node_1 ) + " - " + to_string( node_2 ) + " // ";
+        if (set_node_1 != set_node_2)
+        {
+            response += to_string(node_1) + " - " + to_string(node_2) + " // ";
 
-			weight += it->first;
-			
-            if (rank[ set_node_1 ] > rank[ set_node_2 ])
-			     parent[ set_node_2 ] = set_node_1 ;
-		    else  
-			     parent[ set_node_1 ] = set_node_2;
+            weight += it->first;
 
-		    if (rank[ set_node_1 ] == rank[ set_node_2 ])
-			    rank[ set_node_2 ]++;
-		}
-	}
+            if (rank[set_node_1] > rank[set_node_2])
+                parent[set_node_2] = set_node_1;
+            else
+                parent[set_node_1] = set_node_2;
+
+            if (rank[set_node_1] == rank[set_node_2])
+                rank[set_node_2]++;
+        }
+    }
 
     response += "Peso: " + to_string(weight);
 
@@ -410,7 +446,6 @@ string Graph::agmKruskal()
 
 void Graph::topologicalSorting()
 {
-    
 }
 
 Graph *agmPrim()
