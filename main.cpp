@@ -189,7 +189,7 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
         if (graph->searchNode(target) && graph->searchNode(source))
         {
             float outputData = graph->floydWarshall(source, target);
-            output_file << "Caminho Mínimo entre dois vértices - Dijkstra: " << outputData;
+            output_file << "Caminho Mínimo entre dois vértices - Floyd: " << outputData;
         }
         else
         {
