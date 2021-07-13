@@ -32,8 +32,8 @@ public:
     ~Graph();
     //Getters
     int getOrder();
-    typedef  pair<int, int> iPair;
-    vector< pair<int, iPair> > edges;
+    typedef pair<int, int> iPair;
+    vector<pair<int, iPair> > edges;
     int getNumberEdges();
     bool getDirected();
     bool getWeightedEdge();
@@ -51,7 +51,7 @@ public:
     void topologicalSorting();
     string agmKruskal();
     Graph *agmPrim();
-    float floydMarshall(int idSource, int idTarget);
+    float floydWarshall(int idSource, int idTarget);
     string dijkstra(int idSource, int idTarget);
     string DirectTransitiveClosing(int no);
     string IndirectTransitiveClosing(int no);
@@ -61,8 +61,8 @@ public:
     float greedRactiveRandom();
     int findParent(int aux_node, int *parent);
     void caminhoMinimo(int anterior[], int vertice, string *retorno);
-    void AuxDirectTransitiveClosing( Node* no, list<Node*> &listNodes, int node_user );
-    void AuxIndirectTransitiveClosing( Node* no, list<Node*> &listNodes, int node_user );
+    void AuxDirectTransitiveClosing(Node *no, list<Node *> &listNodes, int node_user);
+    void AuxIndirectTransitiveClosing(Node *no, list<Node *> &listNodes, int node_user);
 
 private:
     //Auxiliar methods

@@ -131,28 +131,28 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
 
         //Fecho transitivo direto de um vértice X;
     case 1:
-    {   
-        if ( graph->getDirected() )
+    {
+        if (graph->getDirected())
         {
             int no;
             cout << "Node id: ";
             cin >> no;
 
-            if( graph->searchNode( no ) )
+            if (graph->searchNode(no))
             {
                 string outputData = graph->DirectTransitiveClosing(no);
                 output_file << "Fecho transitivo direto do vértice " << no << ": " << outputData;
-
-            }else
+            }
+            else
             {
                 cout << "Vertice escolhido não existe!" << endl;
             }
-            
-        }else
+        }
+        else
         {
             cout << "Esse algoritmo não pode ser usado nesse grafo" << endl;
         }
-        
+
         break;
     }
         //Caminho mínimo entre dois vértices usando Dijkstra;
@@ -164,12 +164,12 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
         cout << "Target id: ";
         cin >> target;
 
-        if( graph->searchNode( target ) && graph->searchNode( source ) )
+        if (graph->searchNode(target) && graph->searchNode(source))
         {
             string outputData = graph->dijkstra(source, target);
             output_file << "Caminho Mínimo entre dois vértices - Dijkstra: " << outputData;
-
-        }else
+        }
+        else
         {
             cout << "Um dos vertices escolhidos não existe!" << endl;
         }
@@ -180,6 +180,21 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
         //Caminho mínimo entre dois vértices usando Floyd;
     case 3:
     {
+        int source, target;
+        cout << "Source id: ";
+        cin >> source;
+        cout << "Target id: ";
+        cin >> target;
+
+        if (graph->searchNode(target) && graph->searchNode(source))
+        {
+            float outputData = graph->floydWarshall(source, target);
+            output_file << "Caminho Mínimo entre dois vértices - Floyd: " << outputData;
+        }
+        else
+        {
+            cout << "Um dos vertices escolhidos não existe!" << endl;
+        }
 
         break;
     }
@@ -187,7 +202,7 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
         //AGM - Prim;
     case 4:
     {
-        
+
         break;
     }
 
