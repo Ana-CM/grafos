@@ -202,20 +202,28 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
         //AGM - Prim;
     case 4:
     {
-
-        break;
+        if (!graph->getDirected())
+        {
+            string outputData = graph->agmPrim();
+            output_file << outputData;
+            break;
+        }
+        else
+        {
+            cout << "Esse algoritmo não pode ser usado nesse grafo" << endl;
+        }
     }
 
         //AGM - Kruskal;
     case 5:
-    {   
-        if ( ! graph->getDirected() )
+    {
+        if (!graph->getDirected())
         {
             string outputData = graph->agmKruskal();
             output_file << outputData;
             break;
-            
-        }else
+        }
+        else
         {
             cout << "Esse algoritmo não pode ser usado nesse grafo" << endl;
         }
@@ -224,7 +232,19 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
         //Busca em Profundidade;
     case 6:
     {
+        int vertice;
+        cout << "vertice id: ";
+        cin >> vertice;
 
+        if (graph->searchNode(vertice))
+        {
+            float outputData = graph->buscaProfundidade(vertice);
+            output_file << "Busca em Profundidade: " << outputData;
+        }
+        else
+        {
+            cout << "Um dos vertices escolhidos não existe!" << endl;
+        }
         break;
     }
         //Ordenação Topologica;
@@ -235,24 +255,24 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
     }
         //Fecho transitivo direto de um vértice X;
     case 8:
-    {   
-        if ( graph->getDirected() )
+    {
+        if (graph->getDirected())
         {
             int no;
             cout << "Node id: ";
             cin >> no;
 
-            if( graph->searchNode( no ) )
+            if (graph->searchNode(no))
             {
                 string outputData = graph->IndirectTransitiveClosing(no);
                 output_file << "Fecho transitivo indireto do vértice " << no << ": " << outputData;
-
-            }else
+            }
+            else
             {
                 cout << "Vertice escolhido não existe!" << endl;
             }
-            
-        }else
+        }
+        else
         {
             cout << "Esse algoritmo não pode ser usado nesse grafo" << endl;
         }

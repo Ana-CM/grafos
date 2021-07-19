@@ -295,7 +295,7 @@ string Graph::dijkstra(int idSource, int idTarget)
     int *distancies = new int[this->order];
     int *visited = new int[this->order];
     int *previousEdges = new int[this->order];
-    vector<pair<int, int> > priorities; // o primeiro elemento do pair é a distancia e o segundo eh o vertice
+    vector<pair<int, int>> priorities; // o primeiro elemento do pair é a distancia e o segundo eh o vertice
 
     for (int i = 0; i < this->order; i++)
     {
@@ -319,7 +319,7 @@ string Graph::dijkstra(int idSource, int idTarget)
         if (!visited[topEdge]) // verificando se o vertice já foi visitado
         {
             visited[topEdge] = true;
-            list<pair<int, int> >::iterator it;
+            list<pair<int, int>>::iterator it;
             //percorrendo os vertices adjacentes ao vertice visitado
             for (Edge *it = this->getNode(topEdge)->getFirstEdge(); it != nullptr; it = it->getNextEdge())
             {
@@ -375,7 +375,7 @@ void Graph::AuxDirectTransitiveClosing(Node *no, list<Node *> &listNodes, int no
     }
 
     // Percorrendo as arestas e buscando mais vértices que podem ser atingidos
-    vector<pair<int, iPair> >::iterator it;
+    vector<pair<int, iPair>>::iterator it;
     for (it = this->edges.begin(); it != this->edges.end(); it++)
     {
         if (it->second.first == node_user || (find(listNodes.begin(), listNodes.end(), this->getNode(it->second.first)) != listNodes.end()))
@@ -386,41 +386,42 @@ void Graph::AuxDirectTransitiveClosing(Node *no, list<Node *> &listNodes, int no
     }
 }
 
-string Graph::IndirectTransitiveClosing( int no )
-{   
+string Graph::IndirectTransitiveClosing(int no)
+{
     string response = "";
-    list<Node*> listNodes;
+    list<Node *> listNodes;
 
-    AuxIndirectTransitiveClosing( this->getNode( no ), listNodes, no );
-    
-    for( list<Node*>::iterator it = listNodes.begin(); it != listNodes.end(); it++ )
-    {   
-       Node *aux = *it;
-       response += to_string( aux->getId() ) + " ";
+    AuxIndirectTransitiveClosing(this->getNode(no), listNodes, no);
+
+    for (list<Node *>::iterator it = listNodes.begin(); it != listNodes.end(); it++)
+    {
+        Node *aux = *it;
+        response += to_string(aux->getId()) + " ";
     }
 
     return response;
 }
 
-void Graph::AuxIndirectTransitiveClosing( Node* no, list<Node*> &listNodes, int node_user )
+void Graph::AuxIndirectTransitiveClosing(Node *no, list<Node *> &listNodes, int node_user)
 {
     // Parada, pois o vertice já está na solução
-    if( find( listNodes.begin(), listNodes.end(), no ) != listNodes.end() )
+    if (find(listNodes.begin(), listNodes.end(), no) != listNodes.end())
         return;
 
     // vértice atual é adicionado na solução
-    if( no->getId() != node_user )
+    if (no->getId() != node_user)
     {
-        listNodes.push_back( no );
+        listNodes.push_back(no);
     }
-    
-    // Percorrendo as arestas e buscando mais vértices que podem ser atingidos
-    vector< pair<int, iPair> >::iterator it;
-	for ( it = this->edges.begin(); it != this->edges.end(); it++ )
-    {   
-        if( it->second.second == node_user || (find( listNodes.begin(), listNodes.end(), this->getNode( it->second.second ) ) != listNodes.end())){
 
-            AuxIndirectTransitiveClosing( this->getNode( it->second.first ), listNodes, node_user );
+    // Percorrendo as arestas e buscando mais vértices que podem ser atingidos
+    vector<pair<int, iPair>>::iterator it;
+    for (it = this->edges.begin(); it != this->edges.end(); it++)
+    {
+        if (it->second.second == node_user || (find(listNodes.begin(), listNodes.end(), this->getNode(it->second.second)) != listNodes.end()))
+        {
+
+            AuxIndirectTransitiveClosing(this->getNode(it->second.first), listNodes, node_user);
         }
     }
 }
@@ -452,7 +453,7 @@ string Graph::agmKruskal()
         parent[i] = i; // Todo vertice é pai de si mesmo
     }
 
-    vector<pair<int, iPair> >::iterator it;
+    vector<pair<int, iPair>>::iterator it;
     for (it = this->edges.begin(); it != this->edges.end(); it++)
     {
         int node_1 = it->second.first;
@@ -487,7 +488,124 @@ void Graph::topologicalSorting()
 {
 }
 
-Graph *agmPrim()
+/* Esta função nos permite pesquisar e encontrar o vértice com a menor
+distância entre aqueles que ainda não foram visitados */
+int Graph::menorCaminho(int peso[], bool visitados[])
 {
-    return nullptr;
+    // O valor mínimo será um INT_MAX porque um vértice pode ter peso infinito,
+    //E min_pos que irá armazenar a poção de onde aquele vetor está localizado com distância mínima.
+    int min = INT_MAX, min_pos;
+
+    for (int i = 0; i < this->order(); i++)
+        if (visitados[i] == false && peso[i] < min)
+        {
+            min = peso[i],
+            min_pos = i;
+        }
+    return min_pos;
+}
+/* A função para imprimir a saída as distâncias mínimas que ela nos deixa
+da árvore de cobertura ou de distâncias mínimas*/
+void Graph::imprimeMST(int pai[], int grafo[this->getOrder()][this->getOrder()])
+{
+    int pesoTotal = 0;
+    cout << "Edge \tWeight\n";
+    for (int i = 1; i < V; i++)
+    {
+        cout << pai[i] << " - " << i << " \t" << grafo[i][pai[i]] << " \n";
+        pesoTotal += grafo[i][pai[i]];
+    }
+
+    cout << "O peso final da árvore é: " << pesoTotal;
+}
+
+void Graph::agmPrim()
+{
+    int origem, order, *pai, *key;
+    bool verticesMTS[this->getOrder()];
+    //string response;
+    //vector<pair<int, iPair>>::iterator it;
+
+    //iniciando as variaveis
+    response = "Árvore Geradora Mínima de Prim: ";
+    origem = 0;               // origem para buscar a MST
+    order = this->getOrder(); // Obtenha o número de vértices no gráfico
+    pai = new int[order];     // Array para armazenar MST construído
+    peso = new int[order];    // Valores-chave usados ​​para escolher a aresta de peso mínimo
+
+    for (int i = 0; i <= order; i++)
+    {
+        pai[i] = -1; // Inicia o array pai com -1
+        peso[i] = INT_MAX;
+        verticesMTS[i] = false;
+    }
+
+    // Torne o valor-chave do 0º vértice como 0 para que
+    // é extraído primeiro
+    pai[origem] = origem;
+    peso[0] = 0;
+
+    list<pair<int, iPair>>::iterator it; // peso e o par de vertices
+                                         //percorrendo os vertices adjacentes ao vertice visitado
+    for (it = this->edges.begin(); it != this->edges.end(); it++)
+    {
+        int vertice = it->getTargetId();    //obtem o vertice
+        int custo_aresta = it->getWeight(); //obtem o custo da aresta
+        // Procuramos o peso do minimo nos vértices não visitados
+        int u = menorCaminho(peso, verticesMTS);
+
+        //Adicionamos este vértice àqueles visitados
+        //ou que já estão representados na árvore
+        verticesMTS[i] = true;
+
+        //O peso mínimo para o vértice é atualizado
+        for (int v = 0; v < order; v++)
+        {
+            // grafo[u][v] é diferente de 0, ou seja, tem uma distância.
+            // verticesMTS[v] é falso para vértices que ainda não foram incluídos na árvore.
+            // Atualize o peso apenas se o grafo[u][v] for menor que o peso [v]
+            //if (grafo[u][v] && verticesMTS[v] == false && grafo[u][v] < peso[v])
+            //pai[v] = u, peso[v] = grafo[u][v];
+        }
+    }
+    // imprime mts
+    imprimeMST(pai, grafo);
+}
+
+// realiza o calculo
+void Graph::auxBuscaProfundidade(int init, int *visitado, int cont)
+{
+    visitado[init] = cont;
+
+    //Marca o vertica como visitado, visita os visinhos ainda nao visitados
+    for (int i = 0; i < grau[init]; i++)
+    {
+        if (!visitado[aresta[init][i]])
+        {
+            auxBuscaProfundidade(aresta[init][i], visitado, cont + 1);
+        }
+    }
+    cout << "ordem das visitas: ";
+    for (int i = 0; i < this->getOrder; i++)
+    {
+        cout << visitado[i] << " -> ";
+    }
+    cout << "FIM";
+}
+//faz a interface com o usuario
+void Graph::buscaProfundidade(int idSource)
+{
+    int order, cont, *visitado;
+
+    cont = 1;
+    order = this->getOrder;
+    visitado = new int[order];
+
+    //Marca vertice como NAO visitado
+    for (int i = 0; i < order; i++)
+    {
+        visitado[i] = 0;
+        auxBuscaProfundidade(idSource, visitado, cont)
+    }
+}
 }

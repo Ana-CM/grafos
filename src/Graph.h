@@ -33,7 +33,7 @@ public:
     //Getters
     int getOrder();
     typedef pair<int, int> iPair;
-    vector<pair<int, iPair> > edges;
+    vector<pair<int, iPair>> edges;
     int getNumberEdges();
     bool getDirected();
     bool getWeightedEdge();
@@ -50,7 +50,8 @@ public:
     //methods phase1
     void topologicalSorting();
     string agmKruskal();
-    Graph *agmPrim();
+    void agmPrim();
+    void buscaProfundidade(int idSource);
     float floydWarshall(int idSource, int idTarget);
     string dijkstra(int idSource, int idTarget);
     string DirectTransitiveClosing(int no);
@@ -63,8 +64,11 @@ public:
     void caminhoMinimo(int anterior[], int vertice, string *retorno);
     void AuxDirectTransitiveClosing(Node *no, list<Node *> &listNodes, int node_user);
     void AuxIndirectTransitiveClosing(Node *no, list<Node *> &listNodes, int node_user);
+    void imprimeMST(int pai[], int grafo[][]);
+    int menorCaminho(int peso[], bool visitados[]);
+    void auxBuscaProfundidade(int init, int *visitado, int cont)
 
-private:
+        private:
     //Auxiliar methods
 };
 
