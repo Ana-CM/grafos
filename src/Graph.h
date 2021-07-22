@@ -35,6 +35,7 @@ public:
     typedef pair<int, int> iPair;
     vector<pair<int, iPair>> edges;
     list<pair<int, int>> *adj;
+    map<int, bool> visited;
 
     int getNumberEdges();
     bool getDirected();

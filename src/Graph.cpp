@@ -633,8 +633,19 @@ void Graph::imprimeMST(int pai[], int grafo[this->getOrder()][this->getOrder()])
     // imprime mts
     imprimeMST(pai, grafo);
 }*/
+void Graph::buscaProfundidade(int idSource)
+{
+    // Marque o nó atual como visitado e imprime
+    visited[idSource] = true;
+    cout << idSource << " ";
 
-// realiza o calculo
+    // Recursao para todos os vértices adjacentes para o vértice atual
+    list<int>::iterator i;
+    for (i = this->edges.begin(); i != this->edges.end(); ++i)
+        if (!visited[*i])
+            buscaProfundidade(*i);
+}
+/*// realiza o calculo
 void Graph::auxBuscaProfundidade(int init, int *visitado, int cont)
 {
     visitado[init] = cont;
@@ -669,5 +680,5 @@ void Graph::buscaProfundidade(int idSource)
         visitado[i] = 0;
         auxBuscaProfundidade(idSource, visitado, cont)
     }
-}
+}*/
 }
