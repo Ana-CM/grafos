@@ -16,7 +16,7 @@
 #include <algorithm>
 
 using namespace std;
-
+#define INF 0x3f3f3f3f
 /**************************************************************************************************
  * Defining the Graph's methods
 **************************************************************************************************/
@@ -31,6 +31,7 @@ Graph::Graph(int order, bool directed, bool weighted_edge, bool weighted_node)
     this->weighted_node = weighted_node;
     this->first_node = this->last_node = nullptr;
     this->number_edges = 0;
+    adj = new list<iPair>[this->order];
 }
 
 // Destructor
@@ -487,9 +488,70 @@ string Graph::agmKruskal()
 void Graph::topologicalSorting()
 {
 }
+void Graph::agmPrim()
+{
+    int order, origem;
+
+    //iniciando as variaveis
+    order = this->getOrder();                                // Obtenha o número de vértices no gráfico
+    origem = 0;                                              // Tomando o vértice 0 como origem
+    priority_queue<iPair, vector<iPair>, greater<iPair>> pq; // Cria uma fila de prioridade para armazenar vértices que estão sendo preinMST.
+    vector<int> key(order, INF);                             // Crie um vetor para as chaves e inicialize todos as chaves como infinito (INF)
+    vector<int> parent(order, -1);                           // Para armazenar vetor pai que ira armazenar a MST
+    vector<bool> inMST(order, false);                        // Para acompanhar os vértices incluídos na MST
+
+    // Insere origem na fila de prioridade e inicializa sua chave como 0.
+    pq.push(make_pair(0, origem));
+    key[origem] = 0;
+
+    while (!pq.empty())
+    {
+        // O primeiro vértice do par é a chave mínima vértice, extraia-o da fila de prioridade.
+        // rótulo do vértice é armazenado no segundo do par (ele tem que ser feito desta forma para manter os vértices
+        // chave classificada (a chave deve ser o primeiro item em pares)
+        int u = pq.top().second;
+        pq.pop();
+
+        // Podem existir valores de chave diferentes para o mesmo vértice na fila de prioridade.
+        // Aquele com o menor valor de chave é sempre processado primeiro. Sendo assim, ignora o resto.
+        if (inMST[u] == true)
+        {
+            continue;
+        }
+
+        inMST[u] = true; // Include vertex in MST
+
+        // 'it' é usado para obter todos os vértices adjacentes de um vértice
+        list<pair<int, int>>::iterator it;
+        for (it = adj[u].begin(); it != adj[u].end(); ++it)
+        {
+            // Obter valor do vértice e peso do adjacente atual de 'u'.
+            int v = (*it).first;
+            int weight = (*it).second;
+
+            // Se v não estiver no MST e o peso de (u, v) for menor do que a chave atual de v, tualiza a chave de v
+            if (inMST[v] == false && key[v] > weight)
+            {
+                // Atualizando chave de v
+                key[v] = weight;
+                pq.push(make_pair(key[v], v));
+                parent[v] = u;
+            }
+        }
+    }
+
+    // Imprimir bordas de MST usando o vetor pai
+    cout << "Árvore Geradora Mínima de Prim: ";
+    for (int i = 1; i < order; ++i)
+    {
+        cout << "%d - %d\n"
+             << parent[i],
+            i;
+    }
+}
 
 /* Esta função nos permite pesquisar e encontrar o vértice com a menor
-distância entre aqueles que ainda não foram visitados */
+distância entre aqueles que ainda não foram visitados 
 int Graph::menorCaminho(int peso[], bool visitados[])
 {
     // O valor mínimo será um INT_MAX porque um vértice pode ter peso infinito,
@@ -503,9 +565,9 @@ int Graph::menorCaminho(int peso[], bool visitados[])
             min_pos = i;
         }
     return min_pos;
-}
+}*/
 /* A função para imprimir a saída as distâncias mínimas que ela nos deixa
-da árvore de cobertura ou de distâncias mínimas*/
+da árvore de cobertura ou de distâncias mínimas
 void Graph::imprimeMST(int pai[], int grafo[this->getOrder()][this->getOrder()])
 {
     int pesoTotal = 0;
@@ -517,9 +579,9 @@ void Graph::imprimeMST(int pai[], int grafo[this->getOrder()][this->getOrder()])
     }
 
     cout << "O peso final da árvore é: " << pesoTotal;
-}
+}*/
 
-void Graph::agmPrim()
+/*void Graph::agmPrim()
 {
     int origem, order, *pai, *key;
     bool verticesMTS[this->getOrder()];
@@ -545,7 +607,7 @@ void Graph::agmPrim()
     pai[origem] = origem;
     peso[0] = 0;
 
-    list<pair<int, iPair>>::iterator it; // peso e o par de vertices
+    vector<pair<int, pair<int, int>>> ; // peso e o par de vertices
                                          //percorrendo os vertices adjacentes ao vertice visitado
     for (it = this->edges.begin(); it != this->edges.end(); it++)
     {
@@ -570,7 +632,7 @@ void Graph::agmPrim()
     }
     // imprime mts
     imprimeMST(pai, grafo);
-}
+}*/
 
 // realiza o calculo
 void Graph::auxBuscaProfundidade(int init, int *visitado, int cont)

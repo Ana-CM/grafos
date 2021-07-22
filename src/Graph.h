@@ -34,6 +34,8 @@ public:
     int getOrder();
     typedef pair<int, int> iPair;
     vector<pair<int, iPair>> edges;
+    list<pair<int, int>> *adj;
+
     int getNumberEdges();
     bool getDirected();
     bool getWeightedEdge();
@@ -64,8 +66,8 @@ public:
     void caminhoMinimo(int anterior[], int vertice, string *retorno);
     void AuxDirectTransitiveClosing(Node *no, list<Node *> &listNodes, int node_user);
     void AuxIndirectTransitiveClosing(Node *no, list<Node *> &listNodes, int node_user);
-    void imprimeMST(int pai[], int grafo[][]);
-    int menorCaminho(int peso[], bool visitados[]);
+    //void imprimeMST();
+    //int menorCaminho(int peso[], bool visitados[]);
     void auxBuscaProfundidade(int init, int *visitado, int cont)
 
         private:
