@@ -296,7 +296,7 @@ string Graph::dijkstra(int idSource, int idTarget)
     int *distancies = new int[this->order];
     int *visited = new int[this->order];
     int *previousEdges = new int[this->order];
-    vector<pair<int, int>> priorities; // o primeiro elemento do pair é a distancia e o segundo eh o vertice
+    vector<pair<int, int> > priorities; // o primeiro elemento do pair é a distancia e o segundo eh o vertice
 
     for (int i = 0; i < this->order; i++)
     {
@@ -320,7 +320,7 @@ string Graph::dijkstra(int idSource, int idTarget)
         if (!visited[topEdge]) // verificando se o vertice já foi visitado
         {
             visited[topEdge] = true;
-            list<pair<int, int>>::iterator it;
+            list<pair<int, int> >::iterator it;
             //percorrendo os vertices adjacentes ao vertice visitado
             for (Edge *it = this->getNode(topEdge)->getFirstEdge(); it != nullptr; it = it->getNextEdge())
             {
@@ -376,7 +376,7 @@ void Graph::AuxDirectTransitiveClosing(Node *no, list<Node *> &listNodes, int no
     }
 
     // Percorrendo as arestas e buscando mais vértices que podem ser atingidos
-    vector<pair<int, iPair>>::iterator it;
+    vector<pair<int, iPair> >::iterator it;
     for (it = this->edges.begin(); it != this->edges.end(); it++)
     {
         if (it->second.first == node_user || (find(listNodes.begin(), listNodes.end(), this->getNode(it->second.first)) != listNodes.end()))
@@ -416,7 +416,7 @@ void Graph::AuxIndirectTransitiveClosing(Node *no, list<Node *> &listNodes, int 
     }
 
     // Percorrendo as arestas e buscando mais vértices que podem ser atingidos
-    vector<pair<int, iPair>>::iterator it;
+    vector<pair<int, iPair> >::iterator it;
     for (it = this->edges.begin(); it != this->edges.end(); it++)
     {
         if (it->second.second == node_user || (find(listNodes.begin(), listNodes.end(), this->getNode(it->second.second)) != listNodes.end()))
@@ -454,7 +454,7 @@ string Graph::agmKruskal()
         parent[i] = i; // Todo vertice é pai de si mesmo
     }
 
-    vector<pair<int, iPair>>::iterator it;
+    vector<pair<int, iPair> >::iterator it;
     for (it = this->edges.begin(); it != this->edges.end(); it++)
     {
         int node_1 = it->second.first;
@@ -493,12 +493,12 @@ void Graph::agmPrim()
     int order, origem;
 
     //iniciando as variaveis
-    order = this->getOrder();                                // Obtenha o número de vértices no gráfico
-    origem = 0;                                              // Tomando o vértice 0 como origem
-    priority_queue<iPair, vector<iPair>, greater<iPair>> pq; // Cria uma fila de prioridade para armazenar vértices que estão sendo preinMST.
-    vector<int> key(order, INF);                             // Crie um vetor para as chaves e inicialize todos as chaves como infinito (INF)
-    vector<int> parent(order, -1);                           // Para armazenar vetor pai que ira armazenar a MST
-    vector<bool> inMST(order, false);                        // Para acompanhar os vértices incluídos na MST
+    order = this->getOrder();                                 // Obtenha o número de vértices no gráfico
+    origem = 0;                                               // Tomando o vértice 0 como origem
+    priority_queue<iPair, vector<iPair>, greater<iPair> > pq; // Cria uma fila de prioridade para armazenar vértices que estão sendo preinMST.
+    vector<int> key(order, INF);                              // Crie um vetor para as chaves e inicialize todos as chaves como infinito (INF)
+    vector<int> parent(order, -1);                            // Para armazenar vetor pai que ira armazenar a MST
+    vector<bool> inMST(order, false);                         // Para acompanhar os vértices incluídos na MST
 
     // Insere origem na fila de prioridade e inicializa sua chave como 0.
     pq.push(make_pair(0, origem));
@@ -522,7 +522,7 @@ void Graph::agmPrim()
         inMST[u] = true; // Include vertex in MST
 
         // 'it' é usado para obter todos os vértices adjacentes de um vértice
-        list<pair<int, int>>::iterator it;
+        list<pair<int, int> >::iterator it;
         for (it = adj[u].begin(); it != adj[u].end(); ++it)
         {
             // Obter valor do vértice e peso do adjacente atual de 'u'.
@@ -544,24 +544,22 @@ void Graph::agmPrim()
     cout << "Árvore Geradora Mínima de Prim: ";
     for (int i = 1; i < order; ++i)
     {
-        cout << "%d - %d\n"
-             << parent[i],
-            i;
+        cout << parent[i] << " - " << i << "\n";
     }
 }
 
 void Graph::buscaProfundidade(int idSource)
 {
     // Marque o nó atual como visitado e imprime
+
     visited[idSource] = true;
     cout << idSource << " ";
 
     // Recursao para todos os vértices adjacentes para o vértice atual
     list<int>::iterator i;
-    for (i = this->edges.begin(); i != this->edges.end(); ++i)
+    for (int i = this->edges.begin()->first; i != this->edges.end()->first; ++i)
     {
-        if (!visited[*i])
-            buscaProfundidade(*i);
+        if (!visited[i])
+            buscaProfundidade(i);
     }
-}
 }

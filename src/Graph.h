@@ -8,6 +8,7 @@
 #include <fstream>
 #include <stack>
 #include <list>
+#include <map>
 #include <vector>
 
 using namespace std;
@@ -33,8 +34,8 @@ public:
     //Getters
     int getOrder();
     typedef pair<int, int> iPair;
-    vector<pair<int, iPair>> edges;
-    list<pair<int, int>> *adj;
+    vector<pair<int, iPair> > edges;
+    list<pair<int, int> > *adj;
     map<int, bool> visited;
 
     int getNumberEdges();
@@ -68,7 +69,7 @@ public:
     void AuxDirectTransitiveClosing(Node *no, list<Node *> &listNodes, int node_user);
     void AuxIndirectTransitiveClosing(Node *no, list<Node *> &listNodes, int node_user);
 
-        private:
+private:
     //Auxiliar methods
 };
 

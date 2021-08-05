@@ -21,6 +21,9 @@
         "__nullptr": "cpp",
         "algorithm": "cpp",
         "iostream": "cpp",
-        "xstring": "cpp"
+        "xstring": "cpp",
+        "map": "cpp",
+        "__tree": "cpp",
+        "bitset": "cpp"
     }
 }

@@ -204,7 +204,8 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
     {
         if (!graph->getDirected())
         {
-            string outputData = graph->agmPrim();
+            graph->agmPrim();
+            string outputData = "";
             output_file << outputData;
             break;
         }
@@ -238,7 +239,8 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
 
         if (graph->searchNode(vertice))
         {
-            float outputData = graph->buscaProfundidade(vertice);
+            graph->buscaProfundidade(vertice);
+            float outputData = 1;
             output_file << "Busca em Profundidade: " << outputData;
         }
         else
@@ -292,7 +294,7 @@ int mainMenu(ofstream &output_file, Graph *graph)
 
     while (selecao != 0)
     {
-        system("clear");
+        // system("clear");
         selecao = menu();
 
         if (output_file.is_open())
