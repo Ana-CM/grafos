@@ -550,89 +550,6 @@ void Graph::agmPrim()
     }
 }
 
-/* Esta função nos permite pesquisar e encontrar o vértice com a menor
-distância entre aqueles que ainda não foram visitados 
-int Graph::menorCaminho(int peso[], bool visitados[])
-{
-    // O valor mínimo será um INT_MAX porque um vértice pode ter peso infinito,
-    //E min_pos que irá armazenar a poção de onde aquele vetor está localizado com distância mínima.
-    int min = INT_MAX, min_pos;
-
-    for (int i = 0; i < this->order(); i++)
-        if (visitados[i] == false && peso[i] < min)
-        {
-            min = peso[i],
-            min_pos = i;
-        }
-    return min_pos;
-}*/
-/* A função para imprimir a saída as distâncias mínimas que ela nos deixa
-da árvore de cobertura ou de distâncias mínimas
-void Graph::imprimeMST(int pai[], int grafo[this->getOrder()][this->getOrder()])
-{
-    int pesoTotal = 0;
-    cout << "Edge \tWeight\n";
-    for (int i = 1; i < V; i++)
-    {
-        cout << pai[i] << " - " << i << " \t" << grafo[i][pai[i]] << " \n";
-        pesoTotal += grafo[i][pai[i]];
-    }
-
-    cout << "O peso final da árvore é: " << pesoTotal;
-}*/
-
-/*void Graph::agmPrim()
-{
-    int origem, order, *pai, *key;
-    bool verticesMTS[this->getOrder()];
-    //string response;
-    //vector<pair<int, iPair>>::iterator it;
-
-    //iniciando as variaveis
-    response = "Árvore Geradora Mínima de Prim: ";
-    origem = 0;               // origem para buscar a MST
-    order = this->getOrder(); // Obtenha o número de vértices no gráfico
-    pai = new int[order];     // Array para armazenar MST construído
-    peso = new int[order];    // Valores-chave usados ​​para escolher a aresta de peso mínimo
-
-    for (int i = 0; i <= order; i++)
-    {
-        pai[i] = -1; // Inicia o array pai com -1
-        peso[i] = INT_MAX;
-        verticesMTS[i] = false;
-    }
-
-    // Torne o valor-chave do 0º vértice como 0 para que
-    // é extraído primeiro
-    pai[origem] = origem;
-    peso[0] = 0;
-
-    vector<pair<int, pair<int, int>>> ; // peso e o par de vertices
-                                         //percorrendo os vertices adjacentes ao vertice visitado
-    for (it = this->edges.begin(); it != this->edges.end(); it++)
-    {
-        int vertice = it->getTargetId();    //obtem o vertice
-        int custo_aresta = it->getWeight(); //obtem o custo da aresta
-        // Procuramos o peso do minimo nos vértices não visitados
-        int u = menorCaminho(peso, verticesMTS);
-
-        //Adicionamos este vértice àqueles visitados
-        //ou que já estão representados na árvore
-        verticesMTS[i] = true;
-
-        //O peso mínimo para o vértice é atualizado
-        for (int v = 0; v < order; v++)
-        {
-            // grafo[u][v] é diferente de 0, ou seja, tem uma distância.
-            // verticesMTS[v] é falso para vértices que ainda não foram incluídos na árvore.
-            // Atualize o peso apenas se o grafo[u][v] for menor que o peso [v]
-            //if (grafo[u][v] && verticesMTS[v] == false && grafo[u][v] < peso[v])
-            //pai[v] = u, peso[v] = grafo[u][v];
-        }
-    }
-    // imprime mts
-    imprimeMST(pai, grafo);
-}*/
 void Graph::buscaProfundidade(int idSource)
 {
     // Marque o nó atual como visitado e imprime
@@ -642,43 +559,9 @@ void Graph::buscaProfundidade(int idSource)
     // Recursao para todos os vértices adjacentes para o vértice atual
     list<int>::iterator i;
     for (i = this->edges.begin(); i != this->edges.end(); ++i)
+    {
         if (!visited[*i])
             buscaProfundidade(*i);
+    }
 }
-/*// realiza o calculo
-void Graph::auxBuscaProfundidade(int init, int *visitado, int cont)
-{
-    visitado[init] = cont;
-
-    //Marca o vertica como visitado, visita os visinhos ainda nao visitados
-    for (int i = 0; i < grau[init]; i++)
-    {
-        if (!visitado[aresta[init][i]])
-        {
-            auxBuscaProfundidade(aresta[init][i], visitado, cont + 1);
-        }
-    }
-    cout << "ordem das visitas: ";
-    for (int i = 0; i < this->getOrder; i++)
-    {
-        cout << visitado[i] << " -> ";
-    }
-    cout << "FIM";
-}
-//faz a interface com o usuario
-void Graph::buscaProfundidade(int idSource)
-{
-    int order, cont, *visitado;
-
-    cont = 1;
-    order = this->getOrder;
-    visitado = new int[order];
-
-    //Marca vertice como NAO visitado
-    for (int i = 0; i < order; i++)
-    {
-        visitado[i] = 0;
-        auxBuscaProfundidade(idSource, visitado, cont)
-    }
-}*/
 }

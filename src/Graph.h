@@ -67,9 +67,6 @@ public:
     void caminhoMinimo(int anterior[], int vertice, string *retorno);
     void AuxDirectTransitiveClosing(Node *no, list<Node *> &listNodes, int node_user);
     void AuxIndirectTransitiveClosing(Node *no, list<Node *> &listNodes, int node_user);
-    //void imprimeMST();
-    //int menorCaminho(int peso[], bool visitados[]);
-    void auxBuscaProfundidade(int init, int *visitado, int cont)
 
         private:
     //Auxiliar methods
