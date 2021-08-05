@@ -491,8 +491,10 @@ void Graph::topologicalSorting()
 void Graph::agmPrim()
 {
     int order, origem;
+    string response;
 
     //iniciando as variaveis
+    response "Árvore Geradora Mínima de Prim: ";
     order = this->getOrder();                                // Obtenha o número de vértices no gráfico
     origem = 0;                                              // Tomando o vértice 0 como origem
     priority_queue<iPair, vector<iPair>, greater<iPair>> pq; // Cria uma fila de prioridade para armazenar vértices que estão sendo preinMST.
@@ -541,20 +543,20 @@ void Graph::agmPrim()
     }
 
     // Imprimir bordas de MST usando o vetor pai
-    cout << "Árvore Geradora Mínima de Prim: ";
+
     for (int i = 1; i < order; ++i)
     {
-        cout << "%d - %d\n"
-             << parent[i],
-            i;
+        response += to_string(parent[i]) + " - " + to_string(i);
     }
+    return response;
 }
 
 void Graph::buscaProfundidade(int idSource)
 {
     // Marque o nó atual como visitado e imprime
+    string response;
     visited[idSource] = true;
-    cout << idSource << " ";
+    response += to_string(idSource) + " ";
 
     // Recursao para todos os vértices adjacentes para o vértice atual
     list<int>::iterator i;
@@ -563,5 +565,6 @@ void Graph::buscaProfundidade(int idSource)
         if (!visited[*i])
             buscaProfundidade(*i);
     }
+    return response;
 }
 }

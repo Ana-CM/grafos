@@ -68,7 +68,7 @@ public:
     void AuxDirectTransitiveClosing(Node *no, list<Node *> &listNodes, int node_user);
     void AuxIndirectTransitiveClosing(Node *no, list<Node *> &listNodes, int node_user);
 
-        private:
+private:
     //Auxiliar methods
 };
 
