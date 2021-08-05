@@ -54,8 +54,8 @@ public:
     //methods phase1
     void topologicalSorting();
     string agmKruskal();
-    void agmPrim();
-    void buscaProfundidade(int idSource);
+    string agmPrim();
+    string buscaProfundidade(int idSource);
     float floydWarshall(int idSource, int idTarget);
     string dijkstra(int idSource, int idTarget);
     string DirectTransitiveClosing(int no);

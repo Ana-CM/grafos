@@ -204,8 +204,7 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
     {
         if (!graph->getDirected())
         {
-            graph->agmPrim();
-            string outputData = "";
+            string outputData = graph->agmPrim();
             output_file << outputData;
             break;
         }
