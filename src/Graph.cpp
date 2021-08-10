@@ -280,7 +280,7 @@ void Graph::caminhoMinimo(int anterior[], int vertice, string *retorno)
 {
     if (anterior[vertice] == -1)
     {
-        *retorno = to_string(vertice) + " "; //imprimindo o caminho minimo
+        *retorno = to_string(vertice) + "->"; //imprimindo o caminho minimo
         return;                              //saindo da funcao
     }
 
@@ -288,7 +288,7 @@ void Graph::caminhoMinimo(int anterior[], int vertice, string *retorno)
     // e o vertice anterior ao atual q a funcao recebeu
     caminhoMinimo(anterior, anterior[vertice], retorno);
 
-    *retorno += to_string(vertice) + " "; //imprimindo o caminho minimo
+    *retorno += to_string(vertice) + "->"; //imprimindo o caminho minimo
 }
 
 string Graph::dijkstra(int idSource, int idTarget)
@@ -357,7 +357,8 @@ string Graph::DirectTransitiveClosing(int no)
     for (list<Node *>::iterator it = listNodes.begin(); it != listNodes.end(); it++)
     {
         Node *aux = *it;
-        response += to_string(aux->getId()) + " ";
+
+        response += to_string(aux->getId()) + "->";
     }
 
     return response;
@@ -390,6 +391,7 @@ void Graph::AuxDirectTransitiveClosing(Node *no, list<Node *> &listNodes, int no
 string Graph::IndirectTransitiveClosing(int no)
 {
     string response = "";
+    int i           = 0;
     list<Node *> listNodes;
 
     AuxIndirectTransitiveClosing(this->getNode(no), listNodes, no);
@@ -397,7 +399,8 @@ string Graph::IndirectTransitiveClosing(int no)
     for (list<Node *>::iterator it = listNodes.begin(); it != listNodes.end(); it++)
     {
         Node *aux = *it;
-        response += to_string(aux->getId()) + " ";
+     
+        response += to_string(aux->getId()) + "->";
     }
 
     return response;
@@ -442,7 +445,7 @@ string Graph::agmKruskal()
     string response;
 
     //iniciando as variaveis
-    response = "Árvore Geradora Mínima de Kruskal: ";
+    response = "";
     weight = 0;
     order = this->getOrder();
     parent = new int[order + 1];
@@ -466,8 +469,8 @@ string Graph::agmKruskal()
         //vericando se existe um ciclo entre as duas arestas
         if (set_node_1 != set_node_2)
         {
-            response += to_string(node_1) + " - " + to_string(node_2) + " // ";
-
+            response += to_string(node_1) + " -> " + to_string(node_2) + " -> ";
+           
             weight += it->first;
 
             if (rank[set_node_1] > rank[set_node_2])
@@ -479,8 +482,6 @@ string Graph::agmKruskal()
                 rank[set_node_2]++;
         }
     }
-
-    response += "Peso: " + to_string(weight);
 
     return response;
 }

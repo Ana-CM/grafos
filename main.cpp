@@ -140,8 +140,10 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
 
             if (graph->searchNode(no))
             {
-                string outputData = graph->DirectTransitiveClosing(no);
-                output_file << "Fecho transitivo direto do vértice " << no << ": " << outputData;
+                string outputData = "digraph G {" + graph->DirectTransitiveClosing(no);
+                outputData = outputData.substr(0, outputData.size()-2);
+                outputData = outputData + ";}";
+                output_file << outputData;
             }
             else
             {
@@ -167,7 +169,10 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
         if (graph->searchNode(target) && graph->searchNode(source))
         {
             string outputData = graph->dijkstra(source, target);
-            output_file << "Caminho Mínimo entre dois vértices - Dijkstra: " << outputData;
+            outputData = outputData.substr(0, outputData.size()-2);
+            outputData = "digraph G {" + outputData + ";}";
+            output_file << outputData;
+            break;
         }
         else
         {
@@ -219,7 +224,10 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
     {
         if (!graph->getDirected())
         {
-            string outputData = graph->agmKruskal();
+            string outputData =  "digraph G {" +  graph->agmKruskal();
+            outputData = outputData.substr(0, outputData.size()-3);
+            outputData = outputData + ";}";
+            output_file << outputData;
             output_file << outputData;
             break;
         }
@@ -227,6 +235,7 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
         {
             cout << "Esse algoritmo não pode ser usado nesse grafo" << endl;
         }
+
     }
 
         //Busca em Profundidade;
@@ -254,7 +263,7 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
 
         break;
     }
-        //Fecho transitivo direto de um vértice X;
+        //Fecho transitivo indireto de um vértice X;
     case 8:
     {
         if (graph->getDirected())
@@ -265,8 +274,10 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
 
             if (graph->searchNode(no))
             {
-                string outputData = graph->IndirectTransitiveClosing(no);
-                output_file << "Fecho transitivo indireto do vértice " << no << ": " << outputData;
+                string outputData = "digraph G {" + graph->IndirectTransitiveClosing(no);
+                outputData = outputData.substr(0, outputData.size()-2);
+                outputData = outputData + ";}";
+                output_file << outputData;
             }
             else
             {
