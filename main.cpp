@@ -141,7 +141,7 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
             if (graph->searchNode(no))
             {
                 string outputData = "digraph G {" + graph->DirectTransitiveClosing(no);
-                outputData = outputData.substr(0, outputData.size()-2);
+                outputData = outputData.substr(0, outputData.size() - 2);
                 outputData = outputData + ";}";
                 output_file << outputData;
             }
@@ -169,7 +169,7 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
         if (graph->searchNode(target) && graph->searchNode(source))
         {
             string outputData = graph->dijkstra(source, target);
-            outputData = outputData.substr(0, outputData.size()-2);
+            outputData = outputData.substr(0, outputData.size() - 2);
             outputData = "digraph G {" + outputData + ";}";
             output_file << outputData;
             break;
@@ -193,8 +193,12 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
 
         if (graph->searchNode(target) && graph->searchNode(source))
         {
-            float outputData = graph->floydWarshall(source, target);
-            output_file << "Caminho Mínimo entre dois vértices - Floyd: " << outputData;
+            string outputData = "digraph G {" + graph->floydWarshall(source, target);
+            ;
+            outputData = outputData.substr(0, outputData.size() - 3);
+            outputData = outputData + ";}";
+            output_file << outputData;
+            break;
         }
         else
         {
@@ -209,7 +213,9 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
     {
         if (!graph->getDirected())
         {
-            string outputData = graph->agmPrim();
+            string outputData = "digraph G {" + graph->agmPrim();
+            outputData = outputData.substr(0, outputData.size() - 3);
+            outputData = outputData + ";}";
             output_file << outputData;
             break;
         }
@@ -224,10 +230,9 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
     {
         if (!graph->getDirected())
         {
-            string outputData =  "digraph G {" +  graph->agmKruskal();
-            outputData = outputData.substr(0, outputData.size()-3);
+            string outputData = "digraph G {" + graph->agmKruskal();
+            outputData = outputData.substr(0, outputData.size() - 3);
             outputData = outputData + ";}";
-            output_file << outputData;
             output_file << outputData;
             break;
         }
@@ -235,21 +240,22 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
         {
             cout << "Esse algoritmo não pode ser usado nesse grafo" << endl;
         }
-
     }
 
         //Busca em Profundidade;
     case 6:
     {
         int vertice;
-        cout << "vertice id: ";
+        cout << "Vertice id: ";
         cin >> vertice;
 
         if (graph->searchNode(vertice))
         {
-            graph->buscaProfundidade(vertice);
-            float outputData = 1;
-            output_file << "Busca em Profundidade: " << outputData;
+            string outputData = graph->buscaProfundidade(vertice);
+            outputData = outputData.substr(0, outputData.size() - 2);
+            outputData = "digraph G {" + outputData + ";}";
+            output_file << outputData;
+            break;
         }
         else
         {
@@ -275,7 +281,7 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
             if (graph->searchNode(no))
             {
                 string outputData = "digraph G {" + graph->IndirectTransitiveClosing(no);
-                outputData = outputData.substr(0, outputData.size()-2);
+                outputData = outputData.substr(0, outputData.size() - 2);
                 outputData = outputData + ";}";
                 output_file << outputData;
             }

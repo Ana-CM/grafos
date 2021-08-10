@@ -281,7 +281,7 @@ void Graph::caminhoMinimo(int anterior[], int vertice, string *retorno)
     if (anterior[vertice] == -1)
     {
         *retorno = to_string(vertice) + "->"; //imprimindo o caminho minimo
-        return;                              //saindo da funcao
+        return;                               //saindo da funcao
     }
 
     //chamando a funcao passando com o parametros o vetor de anteriores
@@ -391,7 +391,7 @@ void Graph::AuxDirectTransitiveClosing(Node *no, list<Node *> &listNodes, int no
 string Graph::IndirectTransitiveClosing(int no)
 {
     string response = "";
-    int i           = 0;
+    int i = 0;
     list<Node *> listNodes;
 
     AuxIndirectTransitiveClosing(this->getNode(no), listNodes, no);
@@ -399,7 +399,7 @@ string Graph::IndirectTransitiveClosing(int no)
     for (list<Node *>::iterator it = listNodes.begin(); it != listNodes.end(); it++)
     {
         Node *aux = *it;
-     
+
         response += to_string(aux->getId()) + "->";
     }
 
@@ -470,7 +470,7 @@ string Graph::agmKruskal()
         if (set_node_1 != set_node_2)
         {
             response += to_string(node_1) + " -> " + to_string(node_2) + " -> ";
-           
+
             weight += it->first;
 
             if (rank[set_node_1] > rank[set_node_2])
@@ -496,13 +496,13 @@ string Graph::agmPrim()
     string response;
 
     //iniciando as variaveis
-    response = "Árvore Geradora Mínima de Prim: ";
+    response = " ";
     order = this->getOrder();                                // Obtenha o número de vértices no gráfico
     origem = 0;                                              // Tomando o vértice 0 como origem
-    priority_queue<iPair, vector<iPair>, greater<iPair>> pq; // Cria uma fila de prioridade para armazenar vértices que estão sendo preinMST.
+    priority_queue<iPair, vector<iPair>, greater<iPair>> pq; // Cria uma fila de prioridade para armazenar vértices
     vector<int> key(order, INF);                             // Crie um vetor para as chaves e inicialize todos as chaves como infinito (INF)
-    vector<int> parent(order, -1);                           // Para armazenar vetor pai que ira armazenar a MST
-    vector<bool> inMST(order, false);                        // Para acompanhar os vértices incluídos na MST
+    vector<int> parent(order, -1);                           // Para armazenar vetor pai que ira armazenar o MST
+    vector<bool> mst(order, false);                          // Para acompanhar os vértices incluídos no MST
 
     // Insere origem na fila de prioridade e inicializa sua chave como 0.
     pq.push(make_pair(0, origem));
@@ -510,20 +510,18 @@ string Graph::agmPrim()
 
     while (!pq.empty())
     {
-        // O primeiro vértice do par é a chave mínima vértice, extraia-o da fila de prioridade.
-        // rótulo do vértice é armazenado no segundo do par (ele tem que ser feito desta forma para manter os vértices
-        // chave classificada (a chave deve ser o primeiro item em pares)
+        // O primeiro vértice do par é a chave mínima do vértice, extrair da fila de prioridade.
         int u = pq.top().second;
         pq.pop();
 
         // Podem existir valores de chave diferentes para o mesmo vértice na fila de prioridade.
         // Aquele com o menor valor de chave é sempre processado primeiro. Sendo assim, ignora o resto.
-        if (inMST[u] == true)
+        if (mst[u] == true)
         {
             continue;
         }
 
-        inMST[u] = true; // Include vertex in MST
+        mst[u] = true;
 
         // 'it' é usado para obter todos os vértices adjacentes de um vértice
         list<pair<int, int>>::iterator it;
@@ -533,8 +531,8 @@ string Graph::agmPrim()
             int v = (*it).first;
             int weight = (*it).second;
 
-            // Se v não estiver no MST e o peso de (u, v) for menor do que a chave atual de v, tualiza a chave de v
-            if (inMST[v] == false && key[v] > weight)
+            // Se v não estiver no MST e o peso for menor do que a chave atual de v, tualiza a chave de v
+            if (mst[v] == false && key[v] > weight)
             {
                 // Atualizando chave de v
                 key[v] = weight;
@@ -544,7 +542,7 @@ string Graph::agmPrim()
         }
     }
 
-    // Imprimir bordas de MST usando o vetor pai
+    // Imprimi o MST usando o vetor pai
     vector<int>::iterator it;
     int i = 0;
     for (it = parent.begin(); it != parent.end(); it++)
@@ -556,7 +554,7 @@ string Graph::agmPrim()
         }
         else
         {
-            response += to_string(*it) + " - " + to_string(i);
+            response += to_string(*it) + " -> " + to_string(i);
             i++;
         }
     }
@@ -568,9 +566,9 @@ string Graph::buscaProfundidade(int idSource)
     // Marque o nó atual como visitado e imprime
     string response;
     visited[idSource] = true;
-    response += to_string(idSource) + " ";
+    response += to_string(idSource) + "->";
 
-    // Recursao para todos os vértices adjacentes para o vértice atual
+    // Recursao para todos os vértices adjacentes
     list<int>::iterator i;
     for (int i = this->edges.begin()->first; i != this->edges.end()->first; ++i)
     {
