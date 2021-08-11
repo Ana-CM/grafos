@@ -34,10 +34,10 @@ public:
     //Getters
     int getOrder();
     typedef pair<int, int> iPair;
-    vector<pair<int, iPair>> edges;
-    list<pair<int, int>> *adj;
+    vector<pair<int, iPair> > edges;
+    list<pair<int, int> > *adj;
     map<int, bool> visited;
-    map<int, list<int>> bp;
+    map<int, list<int> > bp;
 
     int getNumberEdges();
     bool getDirected();

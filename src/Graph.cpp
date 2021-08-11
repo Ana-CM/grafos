@@ -305,7 +305,7 @@ string Graph::dijkstra(int idSource, int idTarget)
     int *distancies = new int[this->order];
     int *visited = new int[this->order];
     int *previousEdges = new int[this->order];
-    vector<pair<int, int>> priorities; // o primeiro elemento do pair é a distancia e o segundo eh o vertice
+    vector<pair<int, int> > priorities; // o primeiro elemento do pair é a distancia e o segundo eh o vertice
 
     for (int i = 0; i < this->order; i++)
     {
@@ -329,7 +329,7 @@ string Graph::dijkstra(int idSource, int idTarget)
         if (!visited[topEdge]) // verificando se o vertice já foi visitado
         {
             visited[topEdge] = true;
-            list<pair<int, int>>::iterator it;
+            list<pair<int, int> >::iterator it;
             //percorrendo os vertices adjacentes ao vertice visitado
             for (Edge *it = this->getNode(topEdge)->getFirstEdge(); it != nullptr; it = it->getNextEdge())
             {
@@ -386,7 +386,7 @@ void Graph::AuxDirectTransitiveClosing(Node *no, list<Node *> &listNodes, int no
     }
 
     // Percorrendo as arestas e buscando mais vértices que podem ser atingidos
-    vector<pair<int, iPair>>::iterator it;
+    vector<pair<int, iPair> >::iterator it;
     for (it = this->edges.begin(); it != this->edges.end(); it++)
     {
         if (it->second.first == node_user || (find(listNodes.begin(), listNodes.end(), this->getNode(it->second.first)) != listNodes.end()))
@@ -428,7 +428,7 @@ void Graph::AuxIndirectTransitiveClosing(Node *no, list<Node *> &listNodes, int 
     }
 
     // Percorrendo as arestas e buscando mais vértices que podem ser atingidos
-    vector<pair<int, iPair>>::iterator it;
+    vector<pair<int, iPair> >::iterator it;
     for (it = this->edges.begin(); it != this->edges.end(); it++)
     {
         if (it->second.second == node_user || (find(listNodes.begin(), listNodes.end(), this->getNode(it->second.second)) != listNodes.end()))
@@ -466,7 +466,7 @@ string Graph::agmKruskal()
         parent[i] = i; // Todo vertice é pai de si mesmo
     }
 
-    vector<pair<int, iPair>>::iterator it;
+    vector<pair<int, iPair> >::iterator it;
     for (it = this->edges.begin(); it != this->edges.end(); it++)
     {
         int node_1 = it->second.first;
@@ -563,12 +563,12 @@ string Graph::agmPrim()
 
     //iniciando as variaveis
     response = " ";
-    order = this->getOrder();                                // Obtenha o número de vértices no gráfico
-    origem = this->getFirstNode()->getId();                  // Tomando o vértice 0 como origem
-    priority_queue<iPair, vector<iPair>, greater<iPair>> pq; // Cria uma fila de prioridade para armazenar vértices
-    vector<int> key(order, INF);                             // Crie um vetor para as chaves e inicialize todos as chaves como infinito (INF)
-    vector<int> parent(order + 1, -1);                       // Para armazenar vetor pai que ira armazenar o MST
-    vector<bool> mst(order + 1, false);                      // Para acompanhar os vértices incluídos no MST
+    order = this->getOrder();                                 // Obtenha o número de vértices no gráfico
+    origem = this->getFirstNode()->getId();                   // Tomando o vértice 0 como origem
+    priority_queue<iPair, vector<iPair>, greater<iPair> > pq; // Cria uma fila de prioridade para armazenar vértices
+    vector<int> key(order, INF);                              // Crie um vetor para as chaves e inicialize todos as chaves como infinito (INF)
+    vector<int> parent(order + 1, -1);                        // Para armazenar vetor pai que ira armazenar o MST
+    vector<bool> mst(order + 1, false);                       // Para acompanhar os vértices incluídos no MST
 
     // Insere origem na fila de prioridade e inicializa sua chave como 0.
     pq.push(make_pair(0, origem));
@@ -590,7 +590,7 @@ string Graph::agmPrim()
         mst[u] = true;
 
         // 'it' é usado para obter todos os vértices adjacentes de um vértice
-        list<pair<int, int>>::iterator it;
+        list<pair<int, int> >::iterator it;
         for (it = adj[u].begin(); it != adj[u].end(); ++it)
         {
             // Obter valor do vértice e peso do adjacente atual de 'u'.
