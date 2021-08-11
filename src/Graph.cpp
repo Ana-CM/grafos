@@ -31,7 +31,7 @@ Graph::Graph(int order, bool directed, bool weighted_edge, bool weighted_node)
     this->weighted_node = weighted_node;
     this->first_node = this->last_node = nullptr;
     this->number_edges = 0;
-    adj = new list<iPair>[this->order];
+    adj = new list<iPair>[this->order + 1];
 }
 
 // Destructor
@@ -133,6 +133,10 @@ void Graph::insertEdge(int id, int target_id, float weight)
     }
     originNode->insertEdge(target_id, weight);
     this->edges.push_back(make_pair(weight, make_pair(id, target_id)));
+
+    adj[id].push_back(make_pair(target_id, weight));
+    adj[target_id].push_back(make_pair(id, weight));
+    bp[id].push_back(target_id);
 }
 
 void Graph::removeNode(int id)
@@ -236,8 +240,8 @@ Node *Graph::getNode(int id)
 
 float Graph::floydWarshall(int idSource, int idTarget)
 {
-    int graphOrder  = this->getOrder();
- 
+    int graphOrder = this->getOrder();
+
     float solution[graphOrder][graphOrder];
 
     for (int i = 0; i < graphOrder; i++)
@@ -502,12 +506,12 @@ string Graph::agmPrim()
 
     //iniciando as variaveis
     response = " ";
-    order    = this->getOrder();                                // Obtenha o número de vértices no gráfico
-    origem   = 0;                                              // Tomando o vértice 0 como origem
+    order = this->getOrder();                                // Obtenha o número de vértices no gráfico
+    origem = this->getFirstNode()->getId();                  // Tomando o vértice 0 como origem
     priority_queue<iPair, vector<iPair>, greater<iPair>> pq; // Cria uma fila de prioridade para armazenar vértices
     vector<int> key(order, INF);                             // Crie um vetor para as chaves e inicialize todos as chaves como infinito (INF)
-    vector<int> parent(order, -1);                           // Para armazenar vetor pai que ira armazenar o MST
-    vector<bool> mst(order, false);                          // Para acompanhar os vértices incluídos no MST
+    vector<int> parent(order + 1, -1);                       // Para armazenar vetor pai que ira armazenar o MST
+    vector<bool> mst(order + 1, false);                      // Para acompanhar os vértices incluídos no MST
 
     // Insere origem na fila de prioridade e inicializa sua chave como 0.
     pq.push(make_pair(0, origem));
@@ -543,26 +547,23 @@ string Graph::agmPrim()
                 key[v] = weight;
                 pq.push(make_pair(key[v], v));
                 parent[v] = u;
-
-
             }
         }
     }
 
     // Imprimi o MST usando o vetor pai
-    vector<int>::iterator it;
-    int i = 0;
-    for (it = parent.begin(); it != parent.end(); it++)
+
+    int it = 1;
+    for (int i = 1; i < order + 1; i++)
     {
-        if (*it == origem)
+        it = parent[i];
+        if (parent[i] == -1)
         {
-            response += to_string(i) + "->";
-            i++;
+            continue;
         }
         else
         {
-            response += to_string(*it) + "->" + to_string(i);
-            i++;
+            response += " " + to_string(it) + "->" + to_string(i);
         }
     }
     return response;
@@ -577,10 +578,9 @@ string Graph::buscaProfundidade(int idSource)
 
     // Recursao para todos os vértices adjacentes
     list<int>::iterator i;
-    for (int i = this->edges.begin()->first; i != this->edges.end()->first; ++i)
-    {
-        if (!visited[i])
-            buscaProfundidade(i);
-    }
+
+    for (i = bp[idSource].begin(); i != bp[idSource].end(); ++i)
+        if (!visited[*i])
+            buscaProfundidade(*i);
     return response;
 }

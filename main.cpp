@@ -213,7 +213,7 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
         if (!graph->getDirected())
         {
             string outputData = "digraph G {" + graph->agmPrim();
-            outputData = outputData.substr(0, outputData.size() - 2);
+            outputData = outputData.substr(0, outputData.size());
             outputData = outputData + ";}";
             output_file << outputData;
             break;
