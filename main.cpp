@@ -265,7 +265,7 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
         //Ordenação Topologica;
     case 7:
     {
-
+        graph->topologicalSorting();
         break;
     }
         //Fecho transitivo indireto de um vértice X;

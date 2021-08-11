@@ -52,7 +52,7 @@ public:
     Node *getNode(int id);
 
     //methods phase1
-    void topologicalSorting();
+    list<int> *topologicalSorting();
     string agmKruskal();
     string agmPrim();
     string buscaProfundidade(int idSource);

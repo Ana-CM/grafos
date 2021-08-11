@@ -1,2 +1,2 @@
 ./build.sh
-./a.out instancias/naoDirecionados/ponderados/grafoTeste.txt ola 0 1 0
+./a.out instancias/naoDirecionados/ponderados/grafoTeste.txt ola 1 1 0

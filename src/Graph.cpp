@@ -491,8 +491,65 @@ string Graph::agmKruskal()
     return response;
 }
 
-void Graph::topologicalSorting()
+list<int> *Graph::topologicalSorting()
 {
+    list<int> *resultado = new list<int>;
+    if (!this->directed)
+    {
+        return nullptr;
+    }
+    // pilha com todos os vértices de grau 0 do Grafo
+    stack<Node *> S;
+    stack<pair<int, Edge *> > allEdges;
+    list<int> topologicalSort;
+    int nodesArray[this->order + 1];
+    for (Node *currentNode = this->first_node; currentNode != this->last_node; currentNode = currentNode->getNextNode())
+    {
+        int currentNodeId = currentNode->getId();
+        nodesArray[currentNodeId] = 0;
+        // se o nó atual for for de grau zero, ele é adicionado na fila
+        if (currentNode->getFirstEdge() == nullptr)
+        {
+            S.push(currentNode);
+        }
+        else
+        {
+
+            for (Edge *edge = currentNode->getFirstEdge(); edge != nullptr && edge != currentNode->getLastEdge(); edge = edge->getNextEdge())
+            {
+                allEdges.push(make_pair(currentNodeId, edge));
+                nodesArray[currentNodeId]++;
+            }
+        }
+    }
+    int adjMatrix[this->order + 1][this->order + 1];
+    for (Node *current = S.top(); !S.empty(); S.pop(), current = S.top())
+    {
+        topologicalSort.push_back(current->getId());
+        Edge *edge = current->getFirstEdge();
+        while (edge != nullptr)
+        {
+            adjMatrix[current->getId()][edge->getTargetId()] = 1;
+            nodesArray[edge->getTargetId()]--;
+            if (nodesArray[edge->getTargetId()] == 0)
+            {
+                topologicalSort.push_front(edge->getTargetId());
+            }
+            edge = edge->getNextEdge();
+        }
+    }
+    for (pair<int, Edge *> currentEdge = allEdges.top(); !allEdges.empty(); S.pop(), currentEdge = allEdges.top())
+    {
+        if (adjMatrix[currentEdge.first, currentEdge.second->getTargetId()] == 0)
+        {
+            return nullptr;
+        }
+    }
+    for (list<int>::iterator idNode = topologicalSort.begin(); idNode != topologicalSort.end(); idNode++)
+    {
+        cout << *idNode << " -> ";
+    }
+    return &topologicalSort;
 }
 
 string Graph::agmPrim()
