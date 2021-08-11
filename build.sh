@@ -1,1 +1,1 @@
-g++ main.cpp src/*
+g++ *.c* -o output.out

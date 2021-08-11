@@ -7,8 +7,8 @@
 #include <iomanip>
 #include <stdlib.h>
 #include <chrono>
-#include "./src/Graph.h"
-#include "./src/Node.h"
+#include "Graph.h"
+#include "Node.h"
 
 using namespace std;
 
