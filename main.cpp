@@ -193,10 +193,9 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
 
         if (graph->searchNode(target) && graph->searchNode(source))
         {
-            string outputData = "digraph G {" + graph->floydWarshall(source, target);
-            ;
-            outputData = outputData.substr(0, outputData.size() - 3);
-            outputData = outputData + ";}";
+            float outputData = graph->floydWarshall(source, target);
+            // outputData = outputData.substr(0, outputData.size() - 3);
+            // outputData = outputData + ";}";
             output_file << outputData;
             break;
         }
@@ -214,7 +213,7 @@ void selecionar(int selecao, Graph *graph, ofstream &output_file)
         if (!graph->getDirected())
         {
             string outputData = "digraph G {" + graph->agmPrim();
-            outputData = outputData.substr(0, outputData.size() - 3);
+            outputData = outputData.substr(0, outputData.size() - 2);
             outputData = outputData + ";}";
             output_file << outputData;
             break;

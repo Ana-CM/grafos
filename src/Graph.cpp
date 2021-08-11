@@ -236,9 +236,10 @@ Node *Graph::getNode(int id)
 
 float Graph::floydWarshall(int idSource, int idTarget)
 {
-    int graphOrder = this->getOrder();
-
+    int graphOrder  = this->getOrder();
+ 
     float solution[graphOrder][graphOrder];
+
     for (int i = 0; i < graphOrder; i++)
     {
         for (int j = 0; j < graphOrder; j++)
@@ -268,6 +269,10 @@ float Graph::floydWarshall(int idSource, int idTarget)
                 if (solution[i][j] > solution[i][k] + solution[k][j])
                 {
                     solution[i][j] = solution[i][k] + solution[k][j];
+                    if (i == idSource && j == idTarget)
+                    {
+                        cout << i << " -> " << k << " -> " << j;
+                    }
                 }
             }
         }
@@ -497,8 +502,8 @@ string Graph::agmPrim()
 
     //iniciando as variaveis
     response = " ";
-    order = this->getOrder();                                // Obtenha o número de vértices no gráfico
-    origem = 0;                                              // Tomando o vértice 0 como origem
+    order    = this->getOrder();                                // Obtenha o número de vértices no gráfico
+    origem   = 0;                                              // Tomando o vértice 0 como origem
     priority_queue<iPair, vector<iPair>, greater<iPair>> pq; // Cria uma fila de prioridade para armazenar vértices
     vector<int> key(order, INF);                             // Crie um vetor para as chaves e inicialize todos as chaves como infinito (INF)
     vector<int> parent(order, -1);                           // Para armazenar vetor pai que ira armazenar o MST
@@ -538,6 +543,8 @@ string Graph::agmPrim()
                 key[v] = weight;
                 pq.push(make_pair(key[v], v));
                 parent[v] = u;
+
+
             }
         }
     }
@@ -549,12 +556,12 @@ string Graph::agmPrim()
     {
         if (*it == origem)
         {
-            response += to_string(i);
+            response += to_string(i) + "->";
             i++;
         }
         else
         {
-            response += to_string(*it) + " -> " + to_string(i);
+            response += to_string(*it) + "->" + to_string(i);
             i++;
         }
     }
